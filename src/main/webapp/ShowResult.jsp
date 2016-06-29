@@ -13,17 +13,23 @@
     </head>
     <body>
         <%
-            String jspPath = "/Users/jianli/Downloads/";
+            String jspPath = "/root/";
             String fileName = "hk_visitors.csv";
             String txtFilePath = jspPath + fileName;
             BufferedReader reader = new BufferedReader(new FileReader(txtFilePath));
 
-            StringBuilder sb = new StringBuilder();
+            out.println("<table border=\"1\">");
             String line;
 
             while((line = reader.readLine())!= null){
-                out.println("<br>" + line + "</br>");
+                String[] parts = line.split(",");
+                out.println("<tr>");
+                for(int i = 0; i < parts.length - 1; i++){
+                    out.println("<td>" + parts[i] + "</td>");
+                }
+                out.println("</tr>");
             }
+            out.println("</table>");
         %>
 
     </body>
