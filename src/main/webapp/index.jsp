@@ -17,52 +17,50 @@
       }
     </style>
 <script
-    src="https://maps.googleapis.com/maps/api/js?key=YOUR-KEY-HERE"></script>
+    src="https://maps.googleapis.com/maps/api/js?key=YOUR-KEY">
+</script>
+
 <script>
-var map;
+var marker;
+var infowindow;
 function initialize() {
   var myLatlng = {lat: 22.272157, lng: 114.181587};
 
   var mapOptions = {
     zoom: 14,
-    center: new google.maps.LatLng(22.272157, 114.181587)
+    center: myLatlng
   };
   var map = new google.maps.Map(document.getElementById('map-canvas'),
       mapOptions);
 
-      map.addListener('click', function(e) {
-                placeMarkerAndPanTo(e.latLng, map);
-              });
-}
+var html = "Radius: <input id='radius' name='radius' placeholder='Radius' type='text'> Miles" + "<input type='button' value='Find Users' onclick='findUsers()'/>";
+    infowindow = new google.maps.InfoWindow({
+     content: html
+    });
 
-      function placeMarkerAndPanTo(latLng, map) {
-        var marker = new google.maps.Marker({
-          position: latLng,
-          map: map
+        google.maps.event.addListener(map, "click", function(event) {
+            marker = new google.maps.Marker({
+              position: event.latLng,
+              map: map
+            });
+            google.maps.event.addListener(marker, "click", function() {
+              infowindow.open(map, marker);
+            });
         });
-        map.panTo(latLng);
-
-        var infowindow = new google.maps.InfoWindow({
-                  content: 'Use this as the new center. Lat: ' + latLng.lat() + ' Lng: ' + latLng.lng(),
-                  position: latLng
-                });
-        infowindow.open(map);
-
-        setTimeout( function() {document.location = "ShowResult.jsp";}, 1500);
-      }
-
-function sleep(milliseconds) {
-  var start = new Date().getTime();
-  for (var i = 0; i < 1e7; i++) {
-    if ((new Date().getTime() - start) > milliseconds){
-      break;
-    }
-  }
 }
+
+    function findUsers() {
+      var radius = escape(document.getElementById("radius").value);
+      var latlng = marker.getPosition();
+
+      var url = "ShowResult.jsp?radius=" + radius + "&lat=" + latlng.lat() + "&lng=" + latlng.lng();
+      document.location = url;
+    }
+
 google.maps.event.addDomListener(window, 'load', initialize);
 </script>
 </head>
-<body>
+<body id="body" style="overflow:hidden;">
  <div id="map-canvas"></div>
 </body>
 </html>
