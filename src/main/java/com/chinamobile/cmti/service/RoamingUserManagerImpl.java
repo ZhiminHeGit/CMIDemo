@@ -12,6 +12,7 @@ public class RoamingUserManagerImpl implements RoamingUserManager {
     RoamingUserDAO roamingUserDAO;
 
     public List<RoamingUser> getAllRoamingUser() {
+
         return roamingUserDAO.getAllRoamingUsers();
     }
 }

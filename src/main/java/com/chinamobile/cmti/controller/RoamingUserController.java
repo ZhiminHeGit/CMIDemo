@@ -30,7 +30,8 @@ public class RoamingUserController {
     @RequestMapping(method = RequestMethod.POST)
     public String submitForm(@ModelAttribute("roaming") RoamingUser roamingUser,
                              BindingResult result, SessionStatus status) {
-
+        StringBuilder sb = new StringBuilder();
+        if(sb.length() != 0)
         // Mark Session Complete
         status.setComplete();
         return "redirect:showdetails/showmap";
