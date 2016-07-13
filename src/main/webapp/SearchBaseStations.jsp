@@ -23,7 +23,7 @@
 
             try {
               String line;
-              String execStr = "/usr/bin/java -jar /Users/jianli/git/XdrHttp/out/artifacts/XdrHttp_jar/XdrHttp.jar /Users/jianli/Downloads/cmidata/xdr_http/raw/cell_towers_select.csv " + outputFile + " TAB " + latitudeStr + " " + longitudeStr + " " + radiusStr;
+              String execStr = "/usr/bin/java -jar /root/XdrHttp.jar /Users/jianli/Downloads/cmidata/xdr_http/raw/cell_towers_select.csv " + outputFile + " TAB " + latitudeStr + " " + longitudeStr + " " + radiusStr;
 
               System.out.println("Will execute: " + execStr);
               Process p = Runtime.getRuntime().exec(execStr);

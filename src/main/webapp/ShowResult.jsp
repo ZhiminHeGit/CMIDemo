@@ -94,8 +94,9 @@
             }
             sb.append("</table>");
 
-            String result = "<h3>Found " + count + " users who travelled within a radius of " + radiusStr
-            + " miles from the center of the GPS location (" + latitudeStr + "," + longitudeStr + ") you picked on Google map:</h3>";
+            String result = "<h3>Found " + (count == 0 ? count : count - 1) + " users who travelled within a radius of " + radiusStr + " miles from the center of the</h3>";
+            out.println(result);
+            result = "<h3> GPS location (" + latitudeStr + "," + longitudeStr + ") you picked on Google map:</h3>";
             out.println(result);
             out.println(sb.toString());
 
