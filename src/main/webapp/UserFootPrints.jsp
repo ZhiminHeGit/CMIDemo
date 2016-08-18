@@ -49,13 +49,10 @@
     <div id="map"></div>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.0/jquery.min.js"></script>
     <script>
-
       // This example requires the Visualization library. Include the libraries=visualization
       // parameter when you first load the API. For example:
       // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=visualization">
-
       var map, heatmap;
-
       function initMap() {
         map = new google.maps.Map(document.getElementById('map'), {
           zoom: 13,
@@ -66,7 +63,6 @@ var html = "IMSI: <input id='imsi' name='imsi' placeholder='IMSI' type='text'>" 
     infowindow = new google.maps.InfoWindow({
      content: html
     });
-
         google.maps.event.addListener(map, "click", function(event) {
             marker = new google.maps.Marker({
               position: event.latLng,
@@ -78,7 +74,6 @@ var html = "IMSI: <input id='imsi' name='imsi' placeholder='IMSI' type='text'>" 
         });
         //getUserFootprints();
       }
-
     function getUserFootprints() {
     //window.alert("Please wait until all data is loaded");
     var imsi = escape(document.getElementById("imsi").value);
@@ -92,18 +87,21 @@ $.ajax({ url: url,
          error: function(){window.alert("Error calling " + url);}
         });
     }
-
     function loadDataToHeatMap(data) {
         var temp = new Array();
         temp = data.split(",");
         var tempLen = temp.length;
         //window.alert("Successfully retrieved heatmap data from server. Received " + tempLen + " records. Click OK to display heatmap");
         var pointsArray = new Array();
+        var bounds = new google.maps.LatLngBounds();
         for(i = 0; i < tempLen; i+=2){
             var lng = parseFloat(temp[i]);
             var lan = parseFloat(temp[i+1]);
             pointsArray.push(new google.maps.LatLng(lan, lng));
+            bounds.extend(new google.maps.LatLng(lan, lng));
         }
+
+        map.fitBounds(bounds);
 
         console.log("pointsArray size: " + pointsArray.length);
                 heatmap = new google.maps.visualization.HeatmapLayer({
@@ -113,11 +111,9 @@ $.ajax({ url: url,
                 heatmap.set('radius', 20);
                 heatmap.set('gradient', null);
     }
-
       function toggleHeatmap() {
         heatmap.setMap(heatmap.getMap() ? null : map);
       }
-
       function changeGradient() {
         var gradient = [
           'rgba(0, 255, 255, 0)',
@@ -137,15 +133,12 @@ $.ajax({ url: url,
         ]
         heatmap.set('gradient', heatmap.get('gradient') ? null : gradient);
       }
-
       function changeRadius() {
         heatmap.set('radius', heatmap.get('radius') ? null : 20);
       }
-
       function changeOpacity() {
         heatmap.set('opacity', heatmap.get('opacity') ? null : 0.2);
       }
-
     </script>
     <script async defer
         src="https://maps.googleapis.com/maps/api/js?key=YOUR-KEY-HERE&libraries=visualization&callback=initMap">
