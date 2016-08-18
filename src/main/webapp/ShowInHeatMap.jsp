@@ -58,7 +58,7 @@
 
       function initMap() {
         map = new google.maps.Map(document.getElementById('map'), {
-          zoom: 13,
+          zoom: 11,
           center: {lat: 22.272157, lng: 114.181587},
           mapTypeId: google.maps.MapTypeId.ROADMAP
         });
@@ -81,7 +81,6 @@ var html = "Radius: <input id='radius' name='radius' placeholder='Radius' type='
     function findUsers() {
       var radius = escape(document.getElementById("radius").value);
       var latlng = marker.getPosition();
-
       var url = "SearchBaseStations.jsp?radius=" + radius + "&lat=" + latlng.lat() + "&lng=" + latlng.lng();
 
       infowindow.close();
@@ -187,7 +186,7 @@ new google.maps.LatLng(22.283803,114.158544)
       }
     </script>
     <script async defer
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCU7gzyupy0RBJvWiEKq3CrF5hnnJOwdqk&libraries=visualization&callback=initMap">
+        src="https://maps.googleapis.com/maps/api/js?key=YOUR-KEY-HERE&libraries=visualization&callback=initMap">
     </script>
   </body>
 </html>

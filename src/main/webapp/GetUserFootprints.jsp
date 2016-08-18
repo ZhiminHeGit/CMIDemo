@@ -13,7 +13,7 @@
 <%@page contentType="html/text" pageEncoding="UTF-8"%>
         <%
             String userStr = request.getParameter("user");
-            String outputFile = "/Users/jianli/Downloads/user-trace-with-gps.csv";
+            String outputFile = "/Users/jianli/Downloads/cmidata/xdr_http/user-trace-with-gps.csv";
 
             BufferedReader reader = new BufferedReader(new FileReader(outputFile));
             StringBuilder sb = new StringBuilder();
