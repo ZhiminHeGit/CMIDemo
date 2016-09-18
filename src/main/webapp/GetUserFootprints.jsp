@@ -12,7 +12,7 @@
 <%@page import="com.google.gson.Gson"%>
 <%@page contentType="html/text" pageEncoding="UTF-8"%>
         <%
-            String userStr = request.getParameter("user");
+            String userStr = request.getParameter("imsi");
             String outputFile = "/Users/jianli/Downloads/cmidata/xdr_http/user-trace-with-gps.csv";
 
             BufferedReader reader = new BufferedReader(new FileReader(outputFile));

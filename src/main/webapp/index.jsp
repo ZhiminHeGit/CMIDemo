@@ -31,17 +31,9 @@
 
                                                      <tr>
 <td>
- <h2><a href="UserFootPrints.jsp" > 热点用户轨迹 </a></h2></td>
+ <h2><a href="GetHotSpotUsers.jsp" > 当前移动热点用户及其轨迹展示 </a></h2></td>
 
                                                      </tr>
-
-                                                     <tr>
-<td>
- <h2><a href="UserFootPrintsBaidu.jsp" > 基于百度地图的热点用户轨迹</a></h2></td>
-
-                                                     </tr>
-
-                                                     <tr>
 </table>
 </body>
 </html>

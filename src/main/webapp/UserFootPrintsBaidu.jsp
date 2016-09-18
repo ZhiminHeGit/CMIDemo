@@ -35,7 +35,7 @@
     function getUserFootprints() {
     //window.alert("Please wait until all data is loaded");
     //var imsi = escape(document.getElementById("imsi").value);
-      var url = "GetUserFootprints.jsp?user=460001405210214";
+      var url = "GetUserFootprints.jsp?imsi=460001405210214";
 $.ajax({ url: url,
          type: 'GET',
          success: loadDataToHeatMap,

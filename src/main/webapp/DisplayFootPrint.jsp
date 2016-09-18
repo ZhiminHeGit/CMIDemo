@@ -40,18 +40,9 @@
   </head>
 
   <body>
-    <div id="floating-panel">
-      <button onclick="toggleHeatmap()">Toggle Heatmap</button>
-      <button onclick="changeGradient()">Change gradient</button>
-      <button onclick="changeRadius()">Change radius</button>
-      <button onclick="changeOpacity()">Change opacity</button>
-    </div>
     <div id="map"></div>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.0/jquery.min.js"></script>
     <script>
-      // This example requires the Visualization library. Include the libraries=visualization
-      // parameter when you first load the API. For example:
-      // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=visualization">
       var map, heatmap;
       function initMap() {
         map = new google.maps.Map(document.getElementById('map'), {
@@ -59,26 +50,12 @@
           center: {lat: 22.272157, lng: 114.181587},
           mapTypeId: google.maps.MapTypeId.ROADMAP
         });
-var html = "IMSI: <input id='imsi' name='imsi' placeholder='IMSI' type='text'>" + "<input type='button' value='Display User Footprint' onclick='getUserFootprints()'/>";
-    infowindow = new google.maps.InfoWindow({
-     content: html
-    });
-        google.maps.event.addListener(map, "click", function(event) {
-            marker = new google.maps.Marker({
-              position: event.latLng,
-              map: map
-            });
-            google.maps.event.addListener(marker, "click", function() {
-              infowindow.open(map, marker);
-            });
-        });
-        //getUserFootprints();
+        getUserFootprints();
       }
     function getUserFootprints() {
     //window.alert("Please wait until all data is loaded");
-    var imsi = escape(document.getElementById("imsi").value);
+    var imsi = getParameterByName("imsi", window.location.href);
       var url = "GetUserFootprints.jsp?imsi=" + imsi;
-      infowindow.close();
       if(heatmap != null)
         heatmap.setMap(null);
 $.ajax({ url: url,
@@ -111,34 +88,15 @@ $.ajax({ url: url,
                 heatmap.set('radius', 20);
                 heatmap.set('gradient', null);
     }
-      function toggleHeatmap() {
-        heatmap.setMap(heatmap.getMap() ? null : map);
-      }
-      function changeGradient() {
-        var gradient = [
-          'rgba(0, 255, 255, 0)',
-          'rgba(0, 255, 255, 1)',
-          'rgba(0, 191, 255, 1)',
-          'rgba(0, 127, 255, 1)',
-          'rgba(0, 63, 255, 1)',
-          'rgba(0, 0, 255, 1)',
-          'rgba(0, 0, 223, 1)',
-          'rgba(0, 0, 191, 1)',
-          'rgba(0, 0, 159, 1)',
-          'rgba(0, 0, 127, 1)',
-          'rgba(63, 0, 91, 1)',
-          'rgba(127, 0, 63, 1)',
-          'rgba(191, 0, 31, 1)',
-          'rgba(255, 0, 0, 1)'
-        ]
-        heatmap.set('gradient', heatmap.get('gradient') ? null : gradient);
-      }
-      function changeRadius() {
-        heatmap.set('radius', heatmap.get('radius') ? null : 20);
-      }
-      function changeOpacity() {
-        heatmap.set('opacity', heatmap.get('opacity') ? null : 0.2);
-      }
+    function getParameterByName(name, url) {
+        if (!url) url = window.location.href;
+        name = name.replace(/[\[\]]/g, "\\$&");
+        var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+            results = regex.exec(url);
+        if (!results) return null;
+        if (!results[2]) return '';
+        return decodeURIComponent(results[2].replace(/\+/g, " "));
+    }
     </script>
     <script async defer
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB_GOOW6aZsUtDxaJ3yyUPis8M1QG6WqXk&libraries=visualization&callback=initMap">
