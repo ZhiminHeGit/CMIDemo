@@ -17,7 +17,7 @@
       }
     </style>
 <script
-    src="https://maps.googleapis.com/maps/api/js?key=YOUR-KEY-HERE">
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB_GOOW6aZsUtDxaJ3yyUPis8M1QG6WqXk">
 </script>
 
 <script>

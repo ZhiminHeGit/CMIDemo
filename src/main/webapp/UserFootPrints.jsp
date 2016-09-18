@@ -141,7 +141,7 @@ $.ajax({ url: url,
       }
     </script>
     <script async defer
-        src="https://maps.googleapis.com/maps/api/js?key=YOUR-KEY-HERE&libraries=visualization&callback=initMap">
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB_GOOW6aZsUtDxaJ3yyUPis8M1QG6WqXk&libraries=visualization&callback=initMap">
     </script>
   </body>
 </html>

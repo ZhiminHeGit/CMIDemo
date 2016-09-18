@@ -74,9 +74,7 @@
             catch (Exception err) {
               err.printStackTrace();
             }
-            String jspPath = "/root/";
-            String fileName = "hk_visitors.csv";
-            String txtFilePath = jspPath + fileName;
+
             BufferedReader reader = new BufferedReader(new FileReader(outputFile));
             StringBuilder sb = new StringBuilder();
             sb.append("<table border=\"1\">");
@@ -86,8 +84,12 @@
                 String[] parts = line.split(",");
                 sb.append("<tr>");
                 for(int i = 0; i < parts.length; i++){
-                    if(parts[i] != null && !parts[i].equals("") && !parts[i].equals("rule"))
-                        sb.append("<td>" + parts[i] + "</td>");
+                    if(parts[i] != null && !parts[i].equals("") && !parts[i].equals("rule")){
+                        if(i == 0 || i == 1)
+                            sb.append("<td>" + parts[i].replaceAll("\\d\\d\\d\\d$", "XXXX") + "</td>");
+                        else
+                            sb.append("<td>" + parts[i] + "</td>");
+                    }
                 }
                 sb.append("</tr>");
                 count++;

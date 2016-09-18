@@ -58,7 +58,7 @@
 
       function initMap() {
         map = new google.maps.Map(document.getElementById('map'), {
-          zoom: 11,
+          zoom: 13,
           center: {lat: 22.272157, lng: 114.181587},
           mapTypeId: google.maps.MapTypeId.ROADMAP
         });
@@ -99,12 +99,15 @@ $.ajax({ url: url,
         temp = data.split(",");
         var tempLen = temp.length;
         var pointsArray = new Array();
+        var bounds = new google.maps.LatLngBounds();
         for(i = 0; i < tempLen; i+=2){
             var lan = parseFloat(temp[i]);
             var lng = parseFloat(temp[i+1]);
             pointsArray.push(new google.maps.LatLng(lan, lng));
+            bounds.extend(new google.maps.LatLng(lan, lng));
         }
 
+        map.fitBounds(bounds);
         console.log("pointsArray size: " + pointsArray.length);
                 heatmap = new google.maps.visualization.HeatmapLayer({
                   data: pointsArray,
@@ -186,7 +189,7 @@ new google.maps.LatLng(22.283803,114.158544)
       }
     </script>
     <script async defer
-        src="https://maps.googleapis.com/maps/api/js?key=YOUR-KEY-HERE&libraries=visualization&callback=initMap">
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB_GOOW6aZsUtDxaJ3yyUPis8M1QG6WqXk&libraries=visualization&callback=initMap">
     </script>
   </body>
 </html>
