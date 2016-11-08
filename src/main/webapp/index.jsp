@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=EUC-CN"
-    pageEncoding="EUC-CN"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
   <head>
@@ -40,6 +39,12 @@
   </head>
 
   <body>
+  	<div id="floating-panel">
+  		<button onclick="hongkong()">香港</button>
+  		<button onclick="macau()">澳门</button>
+  		<button onclick="taiwan()">台湾</button>
+  		<button onclick="china()">中国大陆</button>
+  	</div>
     <div id="map"></div>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.0/jquery.min.js"></script>
     <script>
@@ -51,6 +56,18 @@
       var map, heatmap;
       var markers = [];
 
+        function hongkong() {
+          var url = "GetHeatMapData.jsp?mcc=454";
+        }
+        function macau() {
+          var url = "GetHeatMapData.jsp?mcc=455";
+        }
+        function taiwan() {
+          var url = "GetHeatMapData.jsp?mcc=466";
+        }
+        function china() {
+          var url = "GetHeatMapData.jsp?mcc=460";
+        }
         // Adds a marker to the map and push to the array.
         function addMarker(location) {
           var marker = new google.maps.Marker({
