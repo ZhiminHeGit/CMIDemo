@@ -48,12 +48,15 @@
             String radiusStr = request.getParameter("radius");
             System.out.println("radius: " + radiusStr);
             Random random = new Random();
-            String outputFile = "/tmp/FindUserOutput" + random.nextLong() + ".csv";
+            String outputFile = "/Users/zhiminhe/tmp/FindUserOutput.csv";
 
             try {
               String line;
-              String execStr = "/usr/bin/java -cp /Users/jianli/Downloads/cmidata/xdr_http/raw/XdrHttp-1.0-SNAPSHOT.jar HorseRaceProcess " + latitudeStr + " " + longitudeStr + " " + radiusStr + " /Users/jianli/Downloads/cmidata/xdr_http/raw/hk_data_small.csv /Users/jianli/Downloads/cmidata/xdr_http/raw/cell_towers_select.csv /Users/jianli/Downloads/cmidata/xdr_http/raw/number_imsi.csv " + outputFile;
-
+              String command = "/usr/bin/java -cp /Users/zhiminhe/IdeaProjects/XdrHttp/target/XdrHttp-1.0-SNAPSHOT.jar GeoFence";
+              String inputFile = " /Users/zhiminhe/cmidata/hk_data_small.csv ";
+              String cellTowerFile =  " /Users/zhiminhe/cmidata/cell_towers_select.csv ";
+              String numberFile = " /Users/zhiminhe/cmidata/number_imsi.csv ";
+              String execStr =  command + latitudeStr + " " + longitudeStr + " " + radiusStr +  inputFile + cellTowerFile  + numberFile + outputFile;
               System.out.println("Will execute: " + execStr);
               Process p = Runtime.getRuntime().exec(execStr);
               BufferedReader bri = new BufferedReader
@@ -73,7 +76,7 @@
             }
             catch (Exception err) {
               err.printStackTrace();
-            }
+           }
 
             BufferedReader reader = new BufferedReader(new FileReader(outputFile));
             StringBuilder sb = new StringBuilder();

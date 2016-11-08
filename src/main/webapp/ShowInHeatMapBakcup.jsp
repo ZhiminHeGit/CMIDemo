@@ -81,8 +81,8 @@ var html = "Radius: <input id='radius' name='radius' placeholder='Radius' type='
     function findUsers() {
       var radius = escape(document.getElementById("radius").value);
       var latlng = marker.getPosition();
-      var url = "SearchBaseStations.jsp?radius=" + radius + "&lat=" + latlng.lat() + "&lng=" + latlng.lng();
-
+     // var url = "SearchBaseStations.jsp?radius=" + radius + "&lat=" + latlng.lat() + "&lng=" + latlng.lng();
+     var url = "GetHeatMapData.jsp" ;
       infowindow.close();
       if(heatmap != null)
         heatmap.setMap(null);
@@ -94,15 +94,18 @@ $.ajax({ url: url,
     }
 
     function loadDataToHeatMap(data) {
-    window.alert("Successfully retrieved heatmap data from server. Click OK to display heatmap");
+    //window.alert("Successfully retrieved heatmap data from server. Click OK to display heatmap");
         var temp = new Array();
         temp = data.split(",");
         var tempLen = temp.length;
         var pointsArray = new Array();
         var bounds = new google.maps.LatLngBounds();
-        for(i = 0; i < tempLen; i+=2){
+        for(i = 0; i < tempLen; i+=3){
             var lan = parseFloat(temp[i]);
             var lng = parseFloat(temp[i+1]);
+            var weight = parseInt(temp[i+2]);
+            console.log("lan:" + lan + " lng:" + lng + " wt:" + weight + "\n");
+            // pointsArray.push({location: new google.maps.LatLng(lan, lng), weight: weight});
             pointsArray.push(new google.maps.LatLng(lan, lng));
             bounds.extend(new google.maps.LatLng(lan, lng));
         }
