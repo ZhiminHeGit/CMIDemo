@@ -57,40 +57,8 @@
       // parameter when you first load the API. For example:
       // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=visualization">
 
-      var map, heatmap;
-      var markers = [];
+      var map, heatmap,marker;
 
-        // Adds a marker to the map and push to the array.
-        function addMarker(location) {
-          var marker = new google.maps.Marker({
-            position: location,
-            map: map
-          });
-          markers.push(marker);
-        }
-
-        // Sets the map on all markers in the array.
-        function setMapOnAll(map) {
-          for (var i = 0; i < markers.length; i++) {
-            markers[i].setMap(map);
-          }
-        }
-
-        // Removes the markers from the map, but keeps them in the array.
-        function clearMarkers() {
-          setMapOnAll(null);
-        }
-
-        // Shows any markers currently in the array.
-        function showMarkers() {
-          setMapOnAll(map);
-        }
-
-        // Deletes all markers in the array by removing references to them.
-        function deleteMarkers() {
-          clearMarkers();
-          markers = [];
-        }
       function initMap() {
         map = new google.maps.Map(document.getElementById('map'), {
           zoom: 13,
@@ -99,27 +67,29 @@
         });
 
         showHeatMap(454);
-        getSummary();
 
         var html = "Radius: <input id='radius' name='radius' placeholder='Radius' type='text'> Miles" +
             " <input type='button' value='统计数据' onclick='getSummary()'/>";
         infowindow = new google.maps.InfoWindow({content: html});
 
          google.maps.event.addListener(map, "click", function(event) {
+            if (marker) {
+                marker.setMap(null);
+            }
              marker = new google.maps.Marker({
                position: event.latLng,
                map: map
              });
              google.maps.event.addListener(marker, "click", function() {
                infowindow.open(map, marker);
-               markers.push(marker);
              });
          });
     }
 
     function getSummary() {
-
-        var url = "GetSummary.jsp";
+        var radius = escape(document.getElementById("radius").value);
+        var latlng = marker.getPosition();
+        var url = "GetSummary.jsp?radius=" + radius + "&lat=" + latlng.lat() + "&lng=" + latlng.lng();
         $.ajax({ url: url,
                  type: 'GET',
                  success: showSummary,
@@ -129,16 +99,19 @@
     }
 
     function showSummary(data) {
-       window.alert(data);
+       window.alert(data.trim());
     }
 
     function showHeatMap(mcc) {
 
      var url = "GetHeatMapData.jsp?mcc=" + mcc;
      // infowindow.close();
-      if(heatmap != null)
+      if(heatmap) {
         heatmap.setMap(null);
-        deleteMarkers();
+        }
+        if (marker) {
+         marker.setMap(null);
+        }
 $.ajax({ url: url,
          type: 'GET',
          success: loadDataToHeatMap,

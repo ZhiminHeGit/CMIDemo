@@ -12,16 +12,10 @@
 <%@page import="com.google.gson.Gson"%>
 <%@page contentType="html/text" pageEncoding="UTF-8"%>
         <%
-        //    String latitudeStr = request.getParameter("lat");
-        //    System.out.println(new java.util.Date() + " lat: " + latitudeStr);
-        //    String longitudeStr = request.getParameter("lng");
-        //    System.out.println("lng: " + longitudeStr);
-        //    String radiusStr = request.getParameter("radius");
-        //    System.out.println("radius: " + radiusStr);
-
             try {
               String line;
-              String execStr = "/usr/bin/java -cp /Users/zhiminhe/IdeaProjects/XdrHttp/target/XdrHttp-1.0-SNAPSHOT.jar Demo ";
+              String execStr = "/usr/bin/java -cp /Users/zhiminhe/IdeaProjects/XdrHttp/target/XdrHttp-1.0-SNAPSHOT.jar Demo " +
+               request.getParameter("lat") + " " + request.getParameter("lng") + " " + request.getParameter("radius");
               Process p = Runtime.getRuntime().exec(execStr);
               p.waitFor();
               BufferedReader bri = new BufferedReader
