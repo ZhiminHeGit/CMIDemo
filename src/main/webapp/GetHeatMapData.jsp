@@ -12,8 +12,9 @@
 <%@page import="com.google.gson.Gson"%>
 <%@page contentType="html/text" pageEncoding="UTF-8"%>
 <%
+    String mcc = request.getParameter("mcc");
     BufferedReader reader = new BufferedReader(
-    new FileReader("/Volumes/DataDisk/processed/201610010000.454.heatmap"));
+    new FileReader("/Volumes/DataDisk/processed/201610010000." + mcc + ".heatmap"));
     StringBuilder sb = new StringBuilder();
     String line;
     while((line = reader.readLine())!= null){

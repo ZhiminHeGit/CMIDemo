@@ -38,12 +38,16 @@
     </style>
   </head>
 
+
   <body>
   	<div id="floating-panel">
-  		<button onclick="hongkong()">香港</button>
-  		<button onclick="macau()">澳门</button>
-  		<button onclick="taiwan()">台湾</button>
-  		<button onclick="china()">中国大陆</button>
+  		<button onclick="showHeatMap(454)">香港</button>
+  		<button onclick="showHeatMap(455)">澳门</button>
+  		<button onclick="showHeatMap(466)">台湾</button>
+  		<button onclick="showHeatMap(460)">中国大陆</button>
+  		<button onclick="showHeatMap(502)">马来西亚</button>
+        <button onclick="showHeatMap(525)">新加坡</button>
+        <button onclick="showHeatMap(262)">德国</button>
   	</div>
     <div id="map"></div>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.0/jquery.min.js"></script>
@@ -56,18 +60,6 @@
       var map, heatmap;
       var markers = [];
 
-        function hongkong() {
-          var url = "GetHeatMapData.jsp?mcc=454";
-        }
-        function macau() {
-          var url = "GetHeatMapData.jsp?mcc=455";
-        }
-        function taiwan() {
-          var url = "GetHeatMapData.jsp?mcc=466";
-        }
-        function china() {
-          var url = "GetHeatMapData.jsp?mcc=460";
-        }
         // Adds a marker to the map and push to the array.
         function addMarker(location) {
           var marker = new google.maps.Marker({
@@ -106,35 +98,43 @@
           mapTypeId: google.maps.MapTypeId.ROADMAP
         });
 
-        showHeatMap();
+        showHeatMap(454);
+        getSummary();
 
-        var html = "Radius: <input id='radius' name='radius' placeholder='Radius' type='text'> Miles" + "<input type='button' value='Find Users' onclick='getSummary()'/>";
-            infowindow = new google.maps.InfoWindow({
-                content: html
-         });
+        var html = "Radius: <input id='radius' name='radius' placeholder='Radius' type='text'> Miles" +
+            " <input type='button' value='统计数据' onclick='getSummary()'/>";
+        infowindow = new google.maps.InfoWindow({content: html});
 
          google.maps.event.addListener(map, "click", function(event) {
-                     marker = new google.maps.Marker({
-                       position: event.latLng,
-                       map: map
-                     });
-                     google.maps.event.addListener(marker, "click", function() {
-                       infowindow.open(map, marker);
-                       markers.push(marker);
-                     });
-                 });
-
-      }
-
-    function getSummary() {
-        //  var radius = escape(document.getElementById("radius").value);
-        //  var latlng = marker.getPosition();
-        // var url = "SearchBaseStations.jsp?radius=" + radius + "&lat=" + latlng.lat() + "&lng=" + latlng.lng();
+             marker = new google.maps.Marker({
+               position: event.latLng,
+               map: map
+             });
+             google.maps.event.addListener(marker, "click", function() {
+               infowindow.open(map, marker);
+               markers.push(marker);
+             });
+         });
     }
 
-    function showHeatMap() {
+    function getSummary() {
 
-     var url = "GetHeatMapData.jsp" ;
+        var url = "GetSummary.jsp";
+        $.ajax({ url: url,
+                 type: 'GET',
+                 success: showSummary,
+                 error: function(){window.alert("Error calling " + url);}
+                });
+
+    }
+
+    function showSummary(data) {
+       window.alert(data);
+    }
+
+    function showHeatMap(mcc) {
+
+     var url = "GetHeatMapData.jsp?mcc=" + mcc;
      // infowindow.close();
       if(heatmap != null)
         heatmap.setMap(null);
@@ -157,7 +157,7 @@ $.ajax({ url: url,
             var lan = parseFloat(temp[i]);
             var lng = parseFloat(temp[i+1]);
             var weight = parseInt(temp[i+2]);
-            console.log("lan:" + lan + " lng:" + lng + " wt:" + weight + "\n");
+            // console.log("lan:" + lan + " lng:" + lng + " wt:" + weight + "\n");
             // pointsArray.push({location: new google.maps.LatLng(lan, lng), weight: weight});
             pointsArray.push(new google.maps.LatLng(lan, lng));
             bounds.extend(new google.maps.LatLng(lan, lng));
