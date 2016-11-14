@@ -47,6 +47,14 @@
         <button onclick="showHeatMap(525)">新加坡</button>
         <button onclick="showHeatMap(262)">德国</button>
   	</div>
+    <input type="range" min="0" max="167" value="0" step="5" onchange="showValue(this.value)" />
+    <span id="range">Choose Time:</span>
+    <script type="text/javascript">
+    function showValue(newValue)
+    {
+    	alert(newValue);
+    }
+    </script>
     <div id="map"></div>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.0/jquery.min.js"></script>
     <script>
