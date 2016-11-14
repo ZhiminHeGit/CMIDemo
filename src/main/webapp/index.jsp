@@ -37,8 +37,6 @@
       }
     </style>
   </head>
-
-
   <body>
   	<div id="floating-panel">
   		<button onclick="showHeatMap(454)">香港</button>
@@ -53,11 +51,7 @@
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.0/jquery.min.js"></script>
     <script>
 
-      // This example requires the Visualization library. Include the libraries=visualization
-      // parameter when you first load the API. For example:
-      // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=visualization">
-
-      var map, heatmap,marker;
+      var map, heatmap,marker, circle;;
 
       function initMap() {
         map = new google.maps.Map(document.getElementById('map'), {
@@ -68,10 +62,6 @@
 
         showHeatMap(454);
 
-        var html = "Radius: <input id='radius' name='radius' placeholder='Radius' type='text'> Miles" +
-            " <input type='button' value='统计数据' onclick='getSummary()'/>";
-        infowindow = new google.maps.InfoWindow({content: html});
-
          google.maps.event.addListener(map, "click", function(event) {
             if (marker) {
                 marker.setMap(null);
@@ -80,14 +70,23 @@
                position: event.latLng,
                map: map
              });
-             google.maps.event.addListener(marker, "click", function() {
-               infowindow.open(map, marker);
+             if (circle) {
+                circle.setMap(null);
+              }
+             // Add circle overlay and bind to marker
+             circle = new google.maps.Circle({
+               map: map,
+               radius: 16093,    // 10 miles in metres
+               fillColor: '#AA0000'
              });
+             circle.bindTo('center', marker, 'position');
+             getSummary();
+
          });
     }
 
     function getSummary() {
-        var radius = escape(document.getElementById("radius").value);
+        var radius = 10;
         var latlng = marker.getPosition();
         var url = "GetSummary.jsp?radius=" + radius + "&lat=" + latlng.lat() + "&lng=" + latlng.lng();
         $.ajax({ url: url,
@@ -104,18 +103,17 @@
 
     function showHeatMap(mcc) {
 
-     var url = "GetHeatMapData.jsp?mcc=" + mcc;
-     // infowindow.close();
-      if(heatmap) {
-        heatmap.setMap(null);
+        var url = "GetHeatMapData.jsp?mcc=" + mcc;
+        if(heatmap) {
+            heatmap.setMap(null);
         }
         if (marker) {
-         marker.setMap(null);
+            marker.setMap(null);
         }
-$.ajax({ url: url,
-         type: 'GET',
-         success: loadDataToHeatMap,
-         error: function(){window.alert("Error calling " + url);}
+        $.ajax({ url: url,
+            type: 'GET',
+            success: loadDataToHeatMap,
+            error: function(){window.alert("Error calling " + url);}
         });
     }
 

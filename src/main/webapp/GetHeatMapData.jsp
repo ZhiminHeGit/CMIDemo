@@ -14,7 +14,7 @@
 <%
     String mcc = request.getParameter("mcc");
     BufferedReader reader = new BufferedReader(
-    new FileReader("/Volumes/DataDisk/processed/201610010000." + mcc + ".heatmap"));
+    new FileReader("/Volumes/DataDisk/processed/2016100100." + mcc + ".heatmap"));
     StringBuilder sb = new StringBuilder();
     String line;
     while((line = reader.readLine())!= null){
