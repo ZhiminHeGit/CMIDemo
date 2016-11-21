@@ -14,14 +14,16 @@
         <%
             try {
               String line;
-              String execStr = "/usr/bin/java -cp /Users/zhiminhe/IdeaProjects/XdrHttp/target/XdrHttp-1.0-SNAPSHOT.jar Demo " +
-               request.getParameter("lat") + " " + request.getParameter("lng") + " " + request.getParameter("radius");
+              String execStr = "/usr/bin/java -cp /Users/zhiminhe/IdeaProjects/XdrHttp/target/XdrHttp-1.0-SNAPSHOT.jar Demo "
+               + "/Volumes/DataDisk/processed/" + " " + request.getParameter("lat") + " " + request.getParameter("lng") + " "
+               + request.getParameter("radius") + " " +
+               request.getParameter("absolute_hour");
               Process p = Runtime.getRuntime().exec(execStr);
               p.waitFor();
               BufferedReader bri = new BufferedReader
                               (new InputStreamReader(p.getInputStream()));
               while ((line = bri.readLine()) != null) {
-                if (line.length() > 5) { // skip empty lines. not sure whey they are there.
+                if (line.trim().length() > 0) { // skip empty lines. not sure whey they are there.
                     out.println(line);
                 }
               }

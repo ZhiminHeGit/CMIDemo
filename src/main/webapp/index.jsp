@@ -13,10 +13,25 @@
       #map {
         height: 100%;
       }
-      #floating-panel {
+    #summary {
+          position: absolute;
+          top: 10%;
+          left: 85%;
+          z-index: 5;
+          background-color: #fff;
+          padding: 5px;
+          border: 1px solid #999;
+          text-align: center;
+          font-family: 'Roboto','sans-serif';
+          font-size: xx-small;
+          line-height: 30px;
+          padding-left: 10px;
+          background-color: #fff;
+        }
+      #map-chooser {
         position: absolute;
-        top: 10px;
-        left: 25%;
+        top:  50%;
+        left: 5px;
         z-index: 5;
         background-color: #fff;
         padding: 5px;
@@ -24,43 +39,90 @@
         text-align: center;
         font-family: 'Roboto','sans-serif';
         line-height: 30px;
-        padding-left: 10px;
-      }
-      #floating-panel {
         background-color: #fff;
-        border: 1px solid #999;
-        left: 25%;
-        padding: 5px;
+       }
+
+       #hour-slider {
         position: absolute;
-        top: 10px;
+        top:  5px;
+        left: 10%;
         z-index: 5;
-      }
+
+
+       }
+
+       #radius-slider {
+           position: absolute;
+           top:  5px;
+           left: 50%;
+           z-index: 5;
+        }
+
+        #chartdiv {
+            position: absolute;
+            //top: 10%;
+            // left: 85%;
+            z-index: 6;
+            background-color: #fff;
+            padding: 5px;
+            border: 1px solid #999;
+            text-align: center;
+            font-family: 'Roboto','sans-serif';
+            font-size: xx-small;
+            line-height: 30px;
+            padding-left: 10px;
+            background-color: rgba(0,0,0,0.5);
+        }
+
     </style>
   </head>
+
   <body>
-  	<div id="floating-panel">
-  		<button onclick="showHeatMap(454)">香港</button>
-  		<button onclick="showHeatMap(455)">澳门</button>
-  		<button onclick="showHeatMap(466)">台湾</button>
-  		<button onclick="showHeatMap(460)">中国大陆</button>
-  		<button onclick="showHeatMap(502)">马来西亚</button>
-        <button onclick="showHeatMap(525)">新加坡</button>
-        <button onclick="showHeatMap(262)">德国</button>
-  	</div>
-    <input type="range" min="0" max="167" value="0" step="5" onchange="showValue(this.value)" />
-    <span id="range">Choose Time:</span>
+    <div id = "summary"> </div>
+  	<div id="map-chooser">
+  		<button onclick="updateLocation(454)">香港</button><br>
+  		<button onclick="updateLocation(455)">澳门</button><br>
+  		<button onclick="updateLocation(466)">台湾</button><br>
+  		<button onclick="updateLocation(460)">中国大陆</button><br>
+  		<button onclick="updateLocation(502)">马来西亚</button><br>
+        <button onclick="updateLocation(525)">新加坡</button><br>
+    </div>
+    <div id = "hour-slider" >
+        <span id = "time">时间10月1日0时</span>
+        <input  type="range" min="0" max="12" value="0" step="1" onchange="updateHour(this.value)" />
+    </div>
+    <div id = "radius-slider" >
+         <span id = "radius">1公里</span>
+         <input  type="range" min="1" max="50" value="0" step="1" value = "1" onchange="updateRadius(this.value)" />
+    </div>
+
+
     <script type="text/javascript">
-    function showValue(newValue)
+    var map, heatmap, marker, circle, mcc = 454, absolute_hour = 0, radius =1;
+    var SummaryElement = document.getElementById("summary");
+
+    function updateRadius(newRadius) {
+        document.getElementById("radius").innerHTML = newRadius + "公里";
+        radius = newRadius;
+        if (circle) {
+            createCircle();
+        }
+    }
+
+    function updateHour(newHour)
     {
-    	alert(newValue);
+    	absolute_hour = newHour;
+    	hour = newHour % 24;
+    	document.getElementById("time").innerHTML = "时间10月"
+    	    + Math.floor(newHour / 24 + 1) + "日" + hour + "时";
+    	showHeatMap();
+        getSummary();
+
     }
     </script>
     <div id="map"></div>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.0/jquery.min.js"></script>
     <script>
-
-      var map, heatmap,marker, circle;;
-
       function initMap() {
         map = new google.maps.Map(document.getElementById('map'), {
           zoom: 13,
@@ -68,7 +130,8 @@
           mapTypeId: google.maps.MapTypeId.ROADMAP
         });
 
-        showHeatMap(454);
+        showHeatMap();
+        clearSummary();
 
          google.maps.event.addListener(map, "click", function(event) {
             if (marker) {
@@ -78,46 +141,119 @@
                position: event.latLng,
                map: map
              });
-             if (circle) {
-                circle.setMap(null);
-              }
-             // Add circle overlay and bind to marker
-             circle = new google.maps.Circle({
-               map: map,
-               radius: 16093,    // 10 miles in metres
-               fillColor: '#AA0000'
-             });
-             circle.bindTo('center', marker, 'position');
-             getSummary();
+             createCircle();
 
          });
     }
 
+
+    function createCircle() {
+    if (circle) {
+                    circle.setMap(null);
+                 }
+
+       // Add circle overlay and bind to marker
+                 circle = new google.maps.Circle({
+                   map: map,
+                   radius: radius * 1000,    // 10 km
+                   fillColor: '#0000FF',
+                   strokeOpacity: 0,
+                   fillOpacity: 0.2
+                 });
+                 circle.bindTo('center', marker, 'position');
+                 google.maps.event.addListener(circle, "click", function(event) {
+                    clearSummary();
+                    marker.setMap(null);
+                    circle.setMap(null);
+                    circle = null;
+                    marker = null;
+                  })
+                 getSummary();
+        }
+
+    function clearSummary() {
+       SummaryElement.style.visibility = 'hidden';
+     }
     function getSummary() {
-        var radius = 10;
-        var latlng = marker.getPosition();
-        var url = "GetSummary.jsp?radius=" + radius + "&lat=" + latlng.lat() + "&lng=" + latlng.lng();
-        $.ajax({ url: url,
+        if (marker) {
+            var latlng = marker.getPosition();
+            var url = "GetSummary.jsp?radius=" + radius + "&lat=" + latlng.lat() + "&lng=" + latlng.lng() +
+            "&absolute_hour=" + absolute_hour;
+
+            clearSummary();
+            $.ajax({ url: url,
                  type: 'GET',
                  success: showSummary,
                  error: function(){window.alert("Error calling " + url);}
-                });
+            });
+       }
 
     }
 
     function showSummary(data) {
-       window.alert(data.trim());
+    // data.split("=")[0] 人数
+    // e.g
+    // 人数:1497
+    //
+    // data.split("=") holds three JSON strings.
+    // use JSON.parse() to convert to var
+    // e.g var1 regionData = JSON.parse(data.split("=")[1])
+    // data.split("=")[1]
+    // e.g
+    // [
+    //   {"Item": "广东","Count":590},
+    //   {"Item": "福建","Count":152},
+    //   {"Item": "浙江","Count":144},
+    //   {"Item": "上海","Count":135},
+    //   {"Item": "江苏","Count":88},
+    //   {"Item": "Other","Count":388}
+    //   ]
+    //
+    //  data.split("=")[2]
+    // [
+    // {"Item": "苹果","Count":892},
+    // {"Item": "三星","Count":100},
+    // {"Item": "华为","Count":49},
+    // {"Item": "小米","Count":31},
+    // {"Item": "荣耀","Count":21},
+    // {"Item": "Other","Count":67}
+    // ]
+    // data.split("=")[3]
+    // [
+    // {"Item": "微信","Count":1022},
+    // {"Item": "苹果推送","Count":399},
+    // {"Item": "腾讯图片","Count":363},
+    // {"Item": "手机QQ","Count":229},
+    // {"Item": "淘宝","Count":202},
+    // {"Item": "Other","Count":3522}
+    // ]
+
+
+        SummaryElement.innerHTML = data.split("=")[1];
+        SummaryElement.style.visibility = 'visible';
     }
 
-    function showHeatMap(mcc) {
+    function updateLocation(newMcc) {
 
-        var url = "GetHeatMapData.jsp?mcc=" + mcc;
+        mcc = newMcc;
+        if (circle) {
+            circle.setMap(null);
+            circle = null;
+        }
+        if (marker) {
+           marker.setMap(null);
+           marker = null;
+        }
+        clearSummary();
+        showHeatMap();
+    }
+    function showHeatMap() {
+
+        var url = "GetHeatMapData.jsp?mcc=" + mcc + "&absolute_hour=" + absolute_hour;
         if(heatmap) {
             heatmap.setMap(null);
         }
-        if (marker) {
-            marker.setMap(null);
-        }
+
         $.ajax({ url: url,
             type: 'GET',
             success: loadDataToHeatMap,
@@ -154,5 +290,14 @@
     <script async defer
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB_GOOW6aZsUtDxaJ3yyUPis8M1QG6WqXk&libraries=visualization&callback=initMap">
     </script>
-  </body>
+
+    <!-- Styles -->
+    <style>
+    #chartdiv {
+      width: 100%;
+      height: 500px;
+    }
+    </style>
+
+    </body>
 </html>
