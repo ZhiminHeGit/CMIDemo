@@ -17,7 +17,7 @@
         #piechart_1 {
                 position: absolute;
                 top: 10%;
-                right : 0%;
+                right : 5%;
                 z-index: 6;
                 background-color: #fff;
                 padding: 5px;
@@ -33,7 +33,7 @@
          #piechart_2 {
                  position: absolute;
                  top: 40%;
-                 right : 0%;
+                 right : 5%;
                  z-index: 6;
                  background-color: #fff;
                  padding: 5px;
@@ -49,7 +49,7 @@
          #piechart_3 {
                  position: absolute;
                  top: 70%;
-                 right : 0%;
+                 right : 5%;
                  z-index: 6;
                  background-color: #fff;
                  padding: 5px;
@@ -63,15 +63,14 @@
          }
     #summary {
           position: absolute;
-          top: 0%;
-          right : 0%;
+          bottom: 90%;
+          right : 10%;
           z-index: 5;
           background-color: #fff;
           padding: 5px;
           border: 1px solid #999;
           text-align: center;
           font-family: 'Roboto','sans-serif';
-          font-size: xx-small;
           line-height: 30px;
           padding-left: 10px;
           background-color: #fff;
@@ -175,7 +174,7 @@
 
 
     <script type="text/javascript">
-    var map, heatmap, marker, circle, mcc = 454, absolute_hour = 0, radius =1;
+    var map, heatmap, marker, circle, mcc = 454, old_mcc , absolute_hour = 0, radius =1;
 
     function updateRadius(newRadius) {
         document.getElementById("radius").innerHTML = newRadius + "公里";
@@ -222,37 +221,37 @@
          });
     }
 
-
     function createCircle() {
-    if (circle) {
-                    circle.setMap(null);
-                 }
+        if (circle) {
+           circle.setMap(null);
+        }
 
        // Add circle overlay and bind to marker
-                 circle = new google.maps.Circle({
-                   map: map,
-                   radius: radius * 1000,    // 10 km
-                   fillColor: '#0000FF',
-                   strokeOpacity: 0,
-                   fillOpacity: 0.2
-                 });
-                 circle.bindTo('center', marker, 'position');
-                 google.maps.event.addListener(circle, "click", function(event) {
-                    clearSummary();
-                    marker.setMap(null);
-                    circle.setMap(null);
-                    circle = null;
-                    marker = null;
-                  })
-                 getSummary();
+         circle = new google.maps.Circle({
+           map: map,
+           radius: radius * 1000,    // 10 km
+           fillColor: '#0000FF',
+           strokeOpacity: 0,
+           fillOpacity: 0.2
+         });
+         circle.bindTo('center', marker, 'position');
+         google.maps.event.addListener(circle, "click", function(event) {
+            clearSummary();
+            marker.setMap(null);
+            circle.setMap(null);
+            circle = null;
+            marker = null;
+          })
+         getSummary();
         }
 
     function clearSummary() {
-      document.getElementById('summary').style.visibility = 'hidden';
-       document.getElementById('piechart_1').style.visibility = 'hidden';
-         document.getElementById('piechart_2').style.visibility = 'hidden';
-           document.getElementById('piechart_3').style.visibility = 'hidden';
+        document.getElementById('summary').style.visibility = 'hidden';
+        document.getElementById('piechart_1').style.visibility = 'hidden';
+        document.getElementById('piechart_2').style.visibility = 'hidden';
+        document.getElementById('piechart_3').style.visibility = 'hidden';
      }
+
     function getSummary() {
         if (marker) {
             var latlng = marker.getPosition();
@@ -270,49 +269,11 @@
     }
 
     function showSummary(data) {
-    // data.split("=")[0] 人数
-    // e.g
-    // 人数:1497
-    //
-    // data.split("=") holds three JSON strings.
-    // use JSON.parse() to convert to var
-    // e.g var1 regionData = JSON.parse(data.split("=")[1])
-    // data.split("=")[1]
-    // e.g
-    // [
-    //   {"Item": "广东","Count":590},
-    //   {"Item": "福建","Count":152},
-    //   {"Item": "浙江","Count":144},
-    //   {"Item": "上海","Count":135},
-    //   {"Item": "江苏","Count":88},
-    //   {"Item": "Other","Count":388}
-    //   ]
-    //
-    //  data.split("=")[2]
-    // [
-    // {"Item": "苹果","Count":892},
-    // {"Item": "三星","Count":100},
-    // {"Item": "华为","Count":49},
-    // {"Item": "小米","Count":31},
-    // {"Item": "荣耀","Count":21},
-    // {"Item": "Other","Count":67}
-    // ]
-    // data.split("=")[3]
-    // [
-    // {"Item": "微信","Count":1022},
-    // {"Item": "苹果推送","Count":399},
-    // {"Item": "腾讯图片","Count":363},
-    // {"Item": "手机QQ","Count":229},
-    // {"Item": "淘宝","Count":202},
-    // {"Item": "Other","Count":3522}
-    // ]
-
-
         document.getElementById("summary").innerHTML = data.split("=")[0];
         document.getElementById("summary").style.visibility = 'visible';
-        drawChart("piechart_1", "regions", data.split("=")[1]);
-        drawChart("piechart_2", "app", data.split("=")[2]);
-        drawChart("piechart_3", "brand", data.split("=")[3]);
+        drawChart("piechart_1", "来源省市/地区Home Province/Regions", data.split("=")[1]);
+        drawChart("piechart_2", "手机型号Device Model", data.split("=")[2]);
+        drawChart("piechart_3", "用户行为User Behavior", data.split("=")[3]);
     }
 
     function updateLocation(newMcc) {
@@ -329,6 +290,7 @@
         clearSummary();
         showHeatMap();
     }
+
     function showHeatMap() {
 
         var url = "GetHeatMapData.jsp?mcc=" + mcc + "&absolute_hour=" + absolute_hour;
@@ -359,8 +321,10 @@
             pointsArray.push(new google.maps.LatLng(lan, lng));
             bounds.extend(new google.maps.LatLng(lan, lng));
         }
-
-        map.fitBounds(bounds);
+        if ( mcc != old_mcc) {
+            old_mcc = mcc;
+            map.fitBounds(bounds);
+        }
         console.log("pointsArray size: " + pointsArray.length);
                 heatmap = new google.maps.visualization.HeatmapLayer({
                   data: pointsArray,

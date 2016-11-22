@@ -14,8 +14,20 @@
         <%
             try {
               String line;
-              String execStr = "/usr/bin/java -cp /Users/zhiminhe/IdeaProjects/XdrHttp/target/XdrHttp-1.0-SNAPSHOT.jar Demo "
-               + "/Volumes/DataDisk/processed/" + " " + request.getParameter("lat") + " " + request.getParameter("lng") + " "
+
+               String dataDir, jarLocation, java;
+               String cmti_usa_dir = "/Volumes/DataDisk/processed/";
+               if (new File(cmti_usa_dir).exists()) {
+                    java = " /usr/bin/java";
+                    dataDir = cmti_usa_dir;
+                    jarLocation = " /Users/zhiminhe/IdeaProjects/XdrHttp/target/XdrHttp-1.0-SNAPSHOT.jar ";
+               } else {
+                    java = " put in cmi java location";
+                    dataDir = "put in cmi dir";
+                    jarLocation = "put in cmi jar location of backend (XdrHttp)";
+               }
+              String execStr = java + " -cp " + jarLocation + " Demo "
+               + dataDir + " " + request.getParameter("lat") + " " + request.getParameter("lng") + " "
                + request.getParameter("radius") + " " +
                request.getParameter("absolute_hour");
               Process p = Runtime.getRuntime().exec(execStr);
