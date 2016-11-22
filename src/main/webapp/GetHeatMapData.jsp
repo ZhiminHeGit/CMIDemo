@@ -21,7 +21,7 @@
     String cmti_usa_dir = "/Volumes/DataDisk/processed/";
     if (new File(cmti_usa_dir).exists()) {
         dataDir = cmti_usa_dir;
-    } else {
+    } else { // cmi, please modify the parameters below
         dataDir = "put in cmi dir";
     }
     String heatmap = String.format(dataDir + "2016100%d%02d.%s.heatmap", day , hour,  mcc);

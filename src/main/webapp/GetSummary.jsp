@@ -21,7 +21,7 @@
                     java = " /usr/bin/java";
                     dataDir = cmti_usa_dir;
                     jarLocation = " /Users/zhiminhe/IdeaProjects/XdrHttp/target/XdrHttp-1.0-SNAPSHOT.jar ";
-               } else {
+               } else { // cmi, please modify the parameters below
                     java = " put in cmi java location";
                     dataDir = "put in cmi dir";
                     jarLocation = "put in cmi jar location of backend (XdrHttp)";
