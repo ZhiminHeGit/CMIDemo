@@ -89,7 +89,7 @@
     </div>
     <div id = "hour-slider" >
         <span id = "time">时间10月1日0时</span>
-        <input  type="range" min="0" max="12" value="0" step="1" onchange="updateHour(this.value)" />
+        <input  type="range" min="0" max="167" value="0" step="1" onchange="updateHour(this.value)" />
     </div>
     <div id = "radius-slider" >
          <span id = "radius">1公里</span>
