@@ -3,7 +3,7 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>Heatmaps</title>
+    <title>国际漫游大数据</title>
     <style>
       html, body {
         height: 100%;
@@ -13,10 +13,58 @@
       #map {
         height: 100%;
       }
+
+        #piechart_1 {
+                position: absolute;
+                top: 10%;
+                right : 0%;
+                z-index: 6;
+                background-color: #fff;
+                padding: 5px;
+                border: 1px solid #999;
+                text-align: center;
+                font-family: 'Roboto','sans-serif';
+                font-size: xx-small;
+                line-height: 30px;
+                padding-left: 10px;
+                background-color: #fff;
+              }
+
+         #piechart_2 {
+                 position: absolute;
+                 top: 40%;
+                 right : 0%;
+                 z-index: 6;
+                 background-color: #fff;
+                 padding: 5px;
+                 border: 1px solid #999;
+                 text-align: center;
+                 font-family: 'Roboto','sans-serif';
+                 font-size: xx-small;
+                 line-height: 30px;
+                 padding-left: 10px;
+                 background-color: #fff;
+          }
+
+         #piechart_3 {
+                 position: absolute;
+                 top: 70%;
+                 right : 0%;
+                 z-index: 6;
+                 background-color: #fff;
+                 padding: 5px;
+                 border: 1px solid #999;
+                 text-align: center;
+                 font-family: 'Roboto','sans-serif';
+                 font-size: xx-small;
+                 line-height: 30px;
+                 padding-left: 10px;
+                 background-color: #fff;
+         }
     #summary {
           position: absolute;
-          top: 10%;
-          left: 85%;
+          top: 0%;
+          right : 0%;
           z-index: 5;
           background-color: #fff;
           padding: 5px;
@@ -76,8 +124,37 @@
 
     </style>
   </head>
+   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+      <script type="text/javascript">
+      var chartReady = 0;
+        google.charts.load("current", {packages:["corechart"]});
+        google.charts.setOnLoadCallback(setChartReady);
+        function setChartReady() {
+            chartReady = 1;
+        }
 
+        function drawChart(chartid, title, dataString) {
+         if (chartReady == 1) {
+            console.log(dataString);
+            var data = google.visualization.arrayToDataTable(JSON.parse(dataString));
+
+            var options = {
+                title: title,
+                is3D: true,
+            };
+
+            var chart = new google.visualization.PieChart(document.getElementById(chartid));
+            chart.draw(data, options);
+            document.getElementById(chartid).style.visibility = 'visible';
+          }
+        }
+      </script>
   <body>
+  <div id="piechart_1" style="width: 400px; height: 400px;"></div>
+  <div id="piechart_2" style="width: 400px; height: 400px;"></div>
+  <div id="piechart_3" style="width: 400px; height: 400px;"></div>
+
+
     <div id = "summary"> </div>
   	<div id="map-chooser">
   		<button onclick="updateLocation(454)">香港</button><br>
@@ -99,7 +176,6 @@
 
     <script type="text/javascript">
     var map, heatmap, marker, circle, mcc = 454, absolute_hour = 0, radius =1;
-    var SummaryElement = document.getElementById("summary");
 
     function updateRadius(newRadius) {
         document.getElementById("radius").innerHTML = newRadius + "公里";
@@ -172,7 +248,10 @@
         }
 
     function clearSummary() {
-       SummaryElement.style.visibility = 'hidden';
+      document.getElementById('summary').style.visibility = 'hidden';
+       document.getElementById('piechart_1').style.visibility = 'hidden';
+         document.getElementById('piechart_2').style.visibility = 'hidden';
+           document.getElementById('piechart_3').style.visibility = 'hidden';
      }
     function getSummary() {
         if (marker) {
@@ -229,8 +308,11 @@
     // ]
 
 
-        SummaryElement.innerHTML = data.split("=")[1];
-        SummaryElement.style.visibility = 'visible';
+        document.getElementById("summary").innerHTML = data.split("=")[0];
+        document.getElementById("summary").style.visibility = 'visible';
+        drawChart("piechart_1", "regions", data.split("=")[1]);
+        drawChart("piechart_2", "app", data.split("=")[2]);
+        drawChart("piechart_3", "brand", data.split("=")[3]);
     }
 
     function updateLocation(newMcc) {

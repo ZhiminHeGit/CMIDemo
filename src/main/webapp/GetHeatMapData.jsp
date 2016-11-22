@@ -17,7 +17,7 @@
         Integer.parseInt(request.getParameter("absolute_hour"));
     int day = absolute_hour / 24 + 1;
     int hour = absolute_hour % 24;
-    String heatmap = String.format("C:\\Software\\processed\\2016100%d%02d.%s.heatmap", day , hour,  mcc);
+    String heatmap = String.format("/Volumes/DataDisk/processed/2016100%d%02d.%s.heatmap", day , hour,  mcc);
     BufferedReader reader = new BufferedReader(new FileReader(heatmap));
     System.out.println(heatmap);
     StringBuilder sb = new StringBuilder();
