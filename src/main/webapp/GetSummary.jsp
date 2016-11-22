@@ -14,8 +14,8 @@
         <%
             try {
               String line;
-              String execStr = "/usr/bin/java -cp /Users/zhiminhe/IdeaProjects/XdrHttp/target/XdrHttp-1.0-SNAPSHOT.jar Demo "
-               + "/Volumes/DataDisk/processed/" + " " + request.getParameter("lat") + " " + request.getParameter("lng") + " "
+              String execStr = "C:\\Java\\jdk1.8.0_111\\bin\\java -cp C:\\Software\\CMIDemo\\src\\main\\webapp\\WEB-INF\\lib\\XdrHttp-1.0-SNAPSHOT.jar Demo "
+               + "C:\\Software\\processed\\" + " " + request.getParameter("lat") + " " + request.getParameter("lng") + " "
                + request.getParameter("radius") + " " +
                request.getParameter("absolute_hour");
               Process p = Runtime.getRuntime().exec(execStr);
