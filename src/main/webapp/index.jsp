@@ -18,6 +18,8 @@
                 position: absolute;
                 top: 10%;
                 right : 5%;
+                width: 30%;
+                height: 30%;
                 z-index: 6;
                 background-color: #fff;
                 padding: 5px;
@@ -27,15 +29,16 @@
                 font-size: xx-small;
                 line-height: 30px;
                 padding-left: 10px;
-                background-color: #fff;
+                background-color: rgba(255,255,255,0.5);
               }
 
          #piechart_2 {
                  position: absolute;
                  top: 40%;
                  right : 5%;
+                 width: 30%;
+                 height: 30%;
                  z-index: 6;
-                 background-color: #fff;
                  padding: 5px;
                  border: 1px solid #999;
                  text-align: center;
@@ -43,15 +46,17 @@
                  font-size: xx-small;
                  line-height: 30px;
                  padding-left: 10px;
-                 background-color: #fff;
+                  background-color: rgba(255,255,255,0.5);
+
           }
 
          #piechart_3 {
                  position: absolute;
+                 width: 30%;
+                 height: 30%;
                  top: 70%;
                  right : 5%;
                  z-index: 6;
-                 background-color: #fff;
                  padding: 5px;
                  border: 1px solid #999;
                  text-align: center;
@@ -59,21 +64,22 @@
                  font-size: xx-small;
                  line-height: 30px;
                  padding-left: 10px;
-                 background-color: #fff;
+                  background-color: rgba(255,255,255,0.5);
+
          }
     #summary {
           position: absolute;
           bottom: 90%;
           right : 10%;
           z-index: 5;
-          background-color: #fff;
           padding: 5px;
           border: 1px solid #999;
           text-align: center;
           font-family: 'Roboto','sans-serif';
           line-height: 30px;
           padding-left: 10px;
-          background-color: #fff;
+           background-color: rgba(255,255,255,0.5);
+
         }
       #map-chooser {
         position: absolute;
@@ -105,21 +111,8 @@
            z-index: 5;
         }
 
-        #chartdiv {
-            position: absolute;
-            //top: 10%;
-            // left: 85%;
-            z-index: 6;
-            background-color: #fff;
-            padding: 5px;
-            border: 1px solid #999;
-            text-align: center;
-            font-family: 'Roboto','sans-serif';
-            font-size: xx-small;
-            line-height: 30px;
-            padding-left: 10px;
-            background-color: rgba(0,0,0,0.5);
-        }
+
+
 
     </style>
   </head>
@@ -139,6 +132,7 @@
 
             var options = {
                 title: title,
+                backgroundColor: 'transparent',
                 is3D: true,
             };
 
@@ -149,9 +143,9 @@
         }
       </script>
   <body>
-  <div id="piechart_1" style="width: 400px; height: 400px;"></div>
-  <div id="piechart_2" style="width: 400px; height: 400px;"></div>
-  <div id="piechart_3" style="width: 400px; height: 400px;"></div>
+  <div id="piechart_1" ></div>
+  <div id="piechart_2" ></div>
+  <div id="piechart_3" ></div>
 
 
     <div id = "summary"> </div>
