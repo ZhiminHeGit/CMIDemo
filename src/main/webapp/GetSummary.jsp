@@ -16,11 +16,11 @@
               String line;
 
                String dataDir, jarLocation, java;
-               String cmti_usa_dir = "/Volumes/DataDisk/processed/";
+               String cmti_usa_dir = "C:\\Software\\processed\\";
                if (new File(cmti_usa_dir).exists()) {
-                    java = " /usr/bin/java";
+                    java = " C:\\Java\\jdk1.8.0_111\\bin\\java";
                     dataDir = cmti_usa_dir;
-                    jarLocation = " /Users/zhiminhe/IdeaProjects/XdrHttp/target/XdrHttp-1.0-SNAPSHOT.jar ";
+                    jarLocation = " C:\\Software\\CMIDemo\\src\\main\\webapp\\WEB-INF\\lib\\XdrHttp-1.0-SNAPSHOT.jar ";
                } else { // cmi, please modify the parameters below
                     java = " put in cmi java location";
                     dataDir = "put in cmi dir";

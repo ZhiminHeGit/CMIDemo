@@ -18,7 +18,7 @@
     int day = absolute_hour / 24 + 1;
     int hour = absolute_hour % 24;
     String dataDir;
-    String cmti_usa_dir = "/Volumes/DataDisk/processed/";
+    String cmti_usa_dir = "C:\\Software\\processed\\";
     if (new File(cmti_usa_dir).exists()) {
         dataDir = cmti_usa_dir;
     } else { // cmi, please modify the parameters below
@@ -35,4 +35,5 @@
         sb.append(line);
     }
     out.println(sb.toString());
+    reader.close();
 %>
