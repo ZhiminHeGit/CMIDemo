@@ -125,14 +125,14 @@
        #hour-slider {
         position: absolute;
         top:  5px;
-        left: 70%;
+        right: 5%;
         z-index: 5;
        }
 
        #radius-slider {
            position: absolute;
            top:  40px;
-           left: 70%;
+           right: 5%;
            z-index: 5;
         }
         #bottombox{
@@ -182,7 +182,7 @@
 
     function updateRadius(newRadius) {
         if (newRadius <10) newRadius = "0" + newRadius;
-        document.getElementById("radius").innerHTML = "覆盖半径:" + newRadius + "公里";
+        document.getElementById("radius").innerHTML = "覆盖半径:" + newRadius + "公里  ";
         radius = newRadius;
         if (circle) {
             createCircle();
