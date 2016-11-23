@@ -181,6 +181,7 @@
         }
 
     function updateRadius(newRadius) {
+        if (newRadius <10) newRadius = "0" + newRadius;
         document.getElementById("radius").innerHTML = "覆盖半径:" + newRadius + "公里";
         radius = newRadius;
         if (circle) {
@@ -192,6 +193,7 @@
     {
     	absolute_hour = newHour;
     	hour = newHour % 24;
+    	if (hour < 10) hour = "0" + hour;
     	document.getElementById("time").innerHTML = "时间:10月"
     	    + Math.floor(newHour / 24 + 1) + "日" + hour + "时";
     	showHeatMap();
@@ -344,11 +346,11 @@
        </div>
 
        <div id = "hour-slider" >
-                    <span id = "time" style="color:white">时间:10月1日0时</span>
+                    <span id = "time" style="color:white">时间:10月1日00时</span>
                     <input  type="range" min="0" max="167" value="0" step="1" onchange="updateHour(this.value)" />
                 </div>
                 <div id = "radius-slider" >
-                     <span id = "radius" style="color:white">覆盖半径:1公里</span>
+                     <span id = "radius" style="color:white">覆盖半径:01公里</span>
                      <input  type="range" min="1" max="50" value="0" step="1" value = "1" onchange="updateRadius(this.value)" />
                 </div>
        <div id="piechart_1" ></div>
