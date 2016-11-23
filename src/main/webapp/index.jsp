@@ -10,16 +10,42 @@
         margin: 0;
         padding: 0;
       }
+
+      #topmenu{
+         position: absolute;
+         min-width:100%;
+        left: 0px;
+        top: 0px;
+        z-index: 5;
+        padding: 10px;
+        background-color:rgba(10,102,200,0.6);
+      }
+
+      .logo{
+        display:inline-block;
+      }
+
+
+      .title{
+        display:inline-block;
+        font-size:30px;
+        font-weight:100;
+        color:#ffffff;
+        vertical-align: top;
+        margin:5px 0px 0px 20px;
+      }
+
       #map {
         height: 100%;
       }
 
         #piechart_1 {
                 position: absolute;
-                top: 10%;
+                top: 25%;
                 right : 5%;
-                width: 30%;
-                height: 30%;
+                width: 25%;
+
+                height: 25%;
                 z-index: 6;
                 background-color: #fff;
                 padding: 5px;
@@ -34,10 +60,11 @@
 
          #piechart_2 {
                  position: absolute;
-                 top: 40%;
+                 top: 50%;
                  right : 5%;
-                 width: 30%;
-                 height: 30%;
+                 width: 25%;
+
+                 height: 25%;
                  z-index: 6;
                  padding: 5px;
                  border: 1px solid #999;
@@ -52,9 +79,9 @@
 
          #piechart_3 {
                  position: absolute;
-                 width: 30%;
-                 height: 30%;
-                 top: 70%;
+                 width: 25%;
+                 height: 25%;
+                 top: 75%;
                  right : 5%;
                  z-index: 6;
                  padding: 5px;
@@ -69,7 +96,7 @@
          }
     #summary {
           position: absolute;
-          bottom: 90%;
+          bottom: 75%;
           right : 10%;
           z-index: 5;
           padding: 5px;
@@ -80,7 +107,7 @@
           padding-left: 10px;
            background-color: rgba(255,255,255,0.5);
 
-        }
+      }
       #map-chooser {
         position: absolute;
         top:  50%;
@@ -98,29 +125,40 @@
        #hour-slider {
         position: absolute;
         top:  5px;
-        left: 10%;
+        left: 70%;
         z-index: 5;
-
-
        }
 
        #radius-slider {
            position: absolute;
-           top:  5px;
-           left: 50%;
+           top:  25px;
+           left: 70%;
            z-index: 5;
         }
+        #bottombox{
+        background-color:rgba(255,255,255,0.8);
+        position: absolute;
+        bottom:0px;
+        left:0px;
+        padding:4px;
+        font-size:12px;
+        padding:2px 10px;
 
-
-
-
+        }
     </style>
-  </head>
+
    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-      <script type="text/javascript">
+   <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.0/jquery.min.js"></script>
+
+   <script type="text/javascript">
+
+
+      var map, heatmap, marker, circle, mcc = 454, old_mcc , absolute_hour = 0, radius =1;
       var chartReady = 0;
-        google.charts.load("current", {packages:["corechart"]});
+      google.charts.load("current", {packages:["corechart"]});
         google.charts.setOnLoadCallback(setChartReady);
+
+
         function setChartReady() {
             chartReady = 1;
         }
@@ -141,37 +179,9 @@
             document.getElementById(chartid).style.visibility = 'visible';
           }
         }
-      </script>
-  <body>
-  <div id="piechart_1" ></div>
-  <div id="piechart_2" ></div>
-  <div id="piechart_3" ></div>
-
-
-    <div id = "summary"> </div>
-  	<div id="map-chooser">
-  		<button onclick="updateLocation(454)">香港</button><br>
-  		<button onclick="updateLocation(455)">澳门</button><br>
-  		<button onclick="updateLocation(466)">台湾</button><br>
-  		<button onclick="updateLocation(460)">中国大陆</button><br>
-  		<button onclick="updateLocation(502)">马来西亚</button><br>
-        <button onclick="updateLocation(525)">新加坡</button><br>
-    </div>
-    <div id = "hour-slider" >
-        <span id = "time">时间10月1日0时</span>
-        <input  type="range" min="0" max="167" value="0" step="1" onchange="updateHour(this.value)" />
-    </div>
-    <div id = "radius-slider" >
-         <span id = "radius">1公里</span>
-         <input  type="range" min="1" max="50" value="0" step="1" value = "1" onchange="updateRadius(this.value)" />
-    </div>
-
-
-    <script type="text/javascript">
-    var map, heatmap, marker, circle, mcc = 454, old_mcc , absolute_hour = 0, radius =1;
 
     function updateRadius(newRadius) {
-        document.getElementById("radius").innerHTML = newRadius + "公里";
+        document.getElementById("radius").innerHTML = "覆盖半径:" + newRadius + "公里";
         radius = newRadius;
         if (circle) {
             createCircle();
@@ -182,16 +192,12 @@
     {
     	absolute_hour = newHour;
     	hour = newHour % 24;
-    	document.getElementById("time").innerHTML = "时间10月"
+    	document.getElementById("time").innerHTML = "时间:10月"
     	    + Math.floor(newHour / 24 + 1) + "日" + hour + "时";
     	showHeatMap();
         getSummary();
 
     }
-    </script>
-    <div id="map"></div>
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.0/jquery.min.js"></script>
-    <script>
       function initMap() {
         map = new google.maps.Map(document.getElementById('map'), {
           zoom: 13,
@@ -330,14 +336,40 @@
     <script async defer
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB_GOOW6aZsUtDxaJ3yyUPis8M1QG6WqXk&libraries=visualization&callback=initMap">
     </script>
+     </head>
+      <body>
+       <div id="topmenu" class="ui-front ui-widget- content ">
+         <img class="logo" src="img/cmlogo-white.png" width="150" >
+         <div class="title">国际漫游大数据</div>
+       </div>
 
-    <!-- Styles -->
-    <style>
-    #chartdiv {
-      width: 100%;
-      height: 500px;
-    }
-    </style>
+       <div id = "hour-slider" >
+                    <span id = "time" style="color:white">时间:10月1日0时</span>
+                    <input  type="range" min="0" max="167" value="0" step="1" onchange="updateHour(this.value)" />
+                </div>
+                <div id = "radius-slider" >
+                     <span id = "radius" style="color:white">覆盖半径:1公里</span>
+                     <input  type="range" min="1" max="50" value="0" step="1" value = "1" onchange="updateRadius(this.value)" />
+                </div>
+       <div id="piechart_1" ></div>
+       <div id="piechart_2" ></div>
+       <div id="piechart_3" ></div>
 
+
+         <div id = "summary"> </div>
+       	<div id="map-chooser">
+       		<button onclick="updateLocation(454)">香港</button><br>
+       		<button onclick="updateLocation(455)">澳门</button><br>
+       		<button onclick="updateLocation(466)">台湾</button><br>
+       		<button onclick="updateLocation(460)">中国大陆</button><br>
+       		<button onclick="updateLocation(502)">马来西亚</button><br>
+             <button onclick="updateLocation(525)">新加坡</button><br>
+         </div>
+
+
+          <div id="map"></div>
+          <div id="bottombox" class="ui-front ui-widget-content">
+             中国移动国际公司大数据团队出品<BR>中移研究院美研所专家支持
+          </div>
     </body>
 </html>

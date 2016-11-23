@@ -39,6 +39,7 @@
                     out.println(line);
                 }
               }
+              bri.close();
             }
             catch (Exception err) {
               err.printStackTrace();
