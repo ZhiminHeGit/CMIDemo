@@ -97,7 +97,7 @@
     #summary {
           position: absolute;
           bottom: 75%;
-          right : 10%;
+          right : 5%;
           z-index: 5;
           padding: 5px;
           border: 1px solid #999;
@@ -131,7 +131,7 @@
 
        #radius-slider {
            position: absolute;
-           top:  25px;
+           top:  40px;
            left: 70%;
            z-index: 5;
         }
