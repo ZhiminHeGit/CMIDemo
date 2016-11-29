@@ -204,7 +204,12 @@
         map = new google.maps.Map(document.getElementById('map'), {
           zoom: 13,
           center: {lat: 22.272157, lng: 114.181587},
-          mapTypeId: google.maps.MapTypeId.ROADMAP
+          mapTypeId: google.maps.MapTypeId.ROADMAP, 
+          mapTypeControl: true,
+          mapTypeControlOptions: {
+              style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
+              position: google.maps.ControlPosition.BOTTOM_CENTER
+          },
         });
 
         showHeatMap();
