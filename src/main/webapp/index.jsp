@@ -248,7 +248,7 @@
         }
 
     function clearSummary() {
-        document.getElementById('summary').style.visibility = 'hidden';
+    	document.getElementById('summary').style.visibility = 'hidden';
         document.getElementById('piechart_1').style.visibility = 'hidden';
         document.getElementById('piechart_2').style.visibility = 'hidden';
         document.getElementById('piechart_3').style.visibility = 'hidden';
@@ -261,6 +261,9 @@
             "&absolute_hour=" + absolute_hour;
 
             clearSummary();
+            document.getElementById("summary").innerHTML = "正在统计中...";
+            document.getElementById("summary").style.visibility = 'visible';
+        	
             $.ajax({ url: url,
                  type: 'GET',
                  success: showSummary,
@@ -271,8 +274,7 @@
     }
 
     function showSummary(data) {
-        document.getElementById("summary").innerHTML = data.split("=")[0];
-        document.getElementById("summary").style.visibility = 'visible';
+    	document.getElementById('summary').style.visibility = 'hidden';
         drawChart("piechart_1", "来源省市/地区Home Province/Regions", data.split("=")[1]);
         drawChart("piechart_2", "手机型号Device Model", data.split("=")[2]);
         drawChart("piechart_3", "用户行为User Behavior", data.split("=")[3]);
