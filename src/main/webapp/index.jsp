@@ -6,7 +6,9 @@
     <title>国际漫游大数据</title>
     <style>
       html, body {
-        height: 100%;
+      font-family: "Classic Grotesque W01","Hiragino Sans GB","STHeiti","Microsoft YaHei","WenQuanYi Micro Hei",Arial,SimSun,sans-serif;
+      font-size:14px;
+      height: 100%;
         margin: 0;
         padding: 0;
       }
@@ -37,6 +39,7 @@
 
       #map {
         height: 100%;
+        right: 0px;
       }
 
         #piechart_1 {
@@ -45,7 +48,7 @@
                 right : 5%;
                 width: 25%;
 
-                height: 25%;
+                height: 23%;
                 z-index: 6;
                 background-color: #fff;
                 padding: 5px;
@@ -64,7 +67,7 @@
                  right : 5%;
                  width: 25%;
 
-                 height: 25%;
+                 height: 23%;
                  z-index: 6;
                  padding: 5px;
                  border: 1px solid #999;
@@ -80,7 +83,7 @@
          #piechart_3 {
                  position: absolute;
                  width: 25%;
-                 height: 25%;
+                 height: 23%;
                  top: 75%;
                  right : 5%;
                  z-index: 6;
@@ -97,7 +100,7 @@
     #summary {
           position: absolute;
           bottom: 75%;
-          right : 10%;
+          right : 5%;
           z-index: 5;
           padding: 5px;
           border: 1px solid #999;
@@ -113,26 +116,26 @@
         top:  50%;
         left: 5px;
         z-index: 5;
-        background-color: #fff;
+        background-color: rgba(255,255,255,0.8);
         padding: 5px;
         border: 1px solid #999;
         text-align: center;
         font-family: 'Roboto','sans-serif';
         line-height: 30px;
-        background-color: #fff;
+        background-color: rgba(255,255,255,0.5);
        }
 
        #hour-slider {
         position: absolute;
-        top:  5px;
-        left: 70%;
+        top:  20px;
+        right: 5%;
         z-index: 5;
        }
 
        #radius-slider {
            position: absolute;
-           top:  25px;
-           left: 70%;
+           top:  20px;
+           right: 20%;
            z-index: 5;
         }
         #bottombox{
@@ -182,7 +185,7 @@
 
     function updateRadius(newRadius) {
         if (newRadius <10) newRadius = "0" + newRadius;
-        document.getElementById("radius").innerHTML = "覆盖半径:" + newRadius + "公里";
+        document.getElementById("radius").innerHTML = "覆盖半径:" + newRadius + "公里  ";
         radius = newRadius;
         if (circle) {
             createCircle();
@@ -346,11 +349,11 @@
        </div>
 
        <div id = "hour-slider" >
-                    <span id = "time" style="color:white">时间:10月1日00时</span>
+                    <span id = "time" style="color:white">时间:10月1日00时</span><br/>
                     <input  type="range" min="0" max="167" value="0" step="1" onchange="updateHour(this.value)" />
                 </div>
                 <div id = "radius-slider" >
-                     <span id = "radius" style="color:white">覆盖半径:01公里</span>
+                     <span id = "radius" style="color:white">覆盖半径:01公里</span><br/>
                      <input  type="range" min="1" max="50" value="0" step="1" value = "1" onchange="updateRadius(this.value)" />
                 </div>
        <div id="piechart_1" ></div>
@@ -360,18 +363,18 @@
 
          <div id = "summary"> </div>
        	<div id="map-chooser">
-       		<button onclick="updateLocation(454)">香港</button><br>
-       		<button onclick="updateLocation(455)">澳门</button><br>
-       		<button onclick="updateLocation(466)">台湾</button><br>
-       		<button onclick="updateLocation(460)">中国大陆</button><br>
+       		<button onclick="updateLocation(454)">&nbsp香&nbsp&nbsp&nbsp&nbsp港&nbsp</button><br>
+       		<button onclick="updateLocation(455)">&nbsp澳&nbsp&nbsp&nbsp&nbsp门&nbsp</button><br>
+       		<button onclick="updateLocation(466)">&nbsp台&nbsp&nbsp&nbsp&nbsp湾&nbsp</button><br>
+       		<button onclick="updateLocation(460)"><b>中国大陆</b></button><br>
        		<button onclick="updateLocation(502)">马来西亚</button><br>
-             <button onclick="updateLocation(525)">新加坡</button><br>
+             <button onclick="updateLocation(525)">&nbsp新&nbsp加&nbsp坡&nbsp</button><br>
          </div>
 
 
           <div id="map"></div>
           <div id="bottombox" class="ui-front ui-widget-content">
-             中国移动国际公司大数据团队出品<BR>中移研究院美研所专家支持
+             中国移动国际公司大数据团队出品<BR>中国移动研究院美国研究所专家支持
           </div>
     </body>
 </html>
