@@ -13,7 +13,7 @@
 
       #topmenu{
          position: absolute;
-         min-width:100%;
+         width:100%;
         left: 0px;
         top: 0px;
         z-index: 5;
@@ -330,7 +330,7 @@
         console.log("pointsArray size: " + pointsArray.length);
                 heatmap = new google.maps.visualization.HeatmapLayer({
                   data: pointsArray,
-                  map: map
+                  map: map,
                 });
     }
 
