@@ -18,7 +18,7 @@
                String dataDir, jarLocation, java;
                String cmti_usa_dir = "/Volumes/DataDisk/processed/";
                if (new File(cmti_usa_dir).exists()) {
-                    java = " /usr/bin/java";
+                    java = " /usr/bin/java -Dfile.encoding=UTF-8 ";
                     dataDir = cmti_usa_dir;
                     jarLocation = " /Users/zhiminhe/IdeaProjects/XdrHttp/target/XdrHttp-1.0-SNAPSHOT.jar ";
                } else { // cmi, please modify the parameters below
