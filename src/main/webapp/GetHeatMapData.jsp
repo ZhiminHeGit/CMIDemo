@@ -22,7 +22,7 @@
     if (new File(cmti_usa_dir).exists()) {
         dataDir = cmti_usa_dir;
     } else { // cmi, please modify the parameters below
-        dataDir = "put in cmi dir";
+        dataDir = "C:\\Software\\processed\\";
     }
     String heatmap = String.format(dataDir + "2016100%d%02d.%s.heatmap", day , hour,  mcc);
     BufferedReader reader = new BufferedReader(new FileReader(heatmap));
@@ -36,4 +36,5 @@
     }
     reader.close();
     out.println(sb.toString());
+    reader.close();
 %>

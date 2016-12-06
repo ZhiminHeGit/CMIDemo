@@ -4,20 +4,23 @@
   <head>
     <meta charset="utf-8">
     <title>国际漫游大数据</title>
+    <link rel="stylesheet" href="./img/bottons.css" type="text/css">
     <style>
       html, body {
-        height: 100%;
+      font-family: "Classic Grotesque W01","Hiragino Sans GB","STHeiti","Microsoft YaHei","WenQuanYi Micro Hei",Arial,SimSun,sans-serif;
+      font-size:14px;
+      height: 100%;
         margin: 0;
         padding: 0;
       }
 
       #topmenu{
          position: absolute;
-         width:100%;
+        width:100%;
         left: 0px;
         top: 0px;
         z-index: 5;
-        padding: 10px;
+        padding: 0px;
         background-color:rgba(10,102,200,0.6);
       }
 
@@ -37,14 +40,14 @@
 
       #map {
         height: 100%;
+        right: 0px;
       }
 
         #piechart_1 {
                 position: absolute;
-                top: 25%;
-                right : 5%;
-                width: 25%;
-
+                top: 17%;
+                right : 3%;
+                width: 30%;
                 height: 25%;
                 z-index: 6;
                 background-color: #fff;
@@ -54,16 +57,16 @@
                 font-family: 'Roboto','sans-serif';
                 font-size: xx-small;
                 line-height: 30px;
-                padding-left: 10px;
+                padding-left: 5px;
+                padding-right: 0px;
                 background-color: rgba(255,255,255,0.5);
               }
 
          #piechart_2 {
                  position: absolute;
-                 top: 50%;
-                 right : 5%;
-                 width: 25%;
-
+                 top: 44%;
+                 right : 3%;
+                 width: 30%;
                  height: 25%;
                  z-index: 6;
                  padding: 5px;
@@ -72,17 +75,18 @@
                  font-family: 'Roboto','sans-serif';
                  font-size: xx-small;
                  line-height: 30px;
-                 padding-left: 10px;
-                  background-color: rgba(255,255,255,0.5);
+                 padding-left: 5px;
+                 padding-right: 0px;
+                 background-color: rgba(255,255,255,0.5);
 
           }
 
          #piechart_3 {
                  position: absolute;
-                 width: 25%;
+                 width: 30%;
                  height: 25%;
-                 top: 75%;
-                 right : 5%;
+                 top: 71%;
+                 right : 3%;
                  z-index: 6;
                  padding: 5px;
                  border: 1px solid #999;
@@ -90,9 +94,9 @@
                  font-family: 'Roboto','sans-serif';
                  font-size: xx-small;
                  line-height: 30px;
-                 padding-left: 10px;
-                  background-color: rgba(255,255,255,0.5);
-
+                 padding-left: 5px;
+                 padding-right: 0px;
+                 background-color: rgba(255,255,255,0.5);
          }
     #summary {
           position: absolute;
@@ -113,27 +117,27 @@
         top:  50%;
         left: 5px;
         z-index: 5;
-        background-color: #fff;
+        background-color: rgba(255,255,255,0.8);
         padding: 5px;
         border: 1px solid #999;
         text-align: center;
         font-family: 'Roboto','sans-serif';
         line-height: 30px;
-        background-color: #fff;
+        background-color: rgba(255,255,255,0.5);
        }
 
        #hour-slider {
         position: absolute;
-        top:  5px;
-        right: 5%;
+       top:  10px;
+       right: 5%;
         z-index: 5;
        }
 
        #radius-slider {
            position: absolute;
-           top:  40px;
-           right: 5%;
-           z-index: 5;
+          top:  10px;
+           right: 20%;
+          z-index: 5;
         }
         #bottombox{
         background-color:rgba(255,255,255,0.8);
@@ -152,8 +156,7 @@
 
    <script type="text/javascript">
 
-
-      var map, heatmap, marker, circle, mcc = 454, old_mcc , absolute_hour = 0, radius =1;
+      var map, heatmap, marker, circle, mcc = 454, old_mcc , absolute_hour = 0, radius =5;
       var chartReady = 0;
       google.charts.load("current", {packages:["corechart"]});
         google.charts.setOnLoadCallback(setChartReady);
@@ -181,7 +184,6 @@
         }
 
     function updateRadius(newRadius) {
-        if (newRadius <10) newRadius = "0" + newRadius;
         document.getElementById("radius").innerHTML = "覆盖半径:" + newRadius + "公里  ";
         radius = newRadius;
         if (circle) {
@@ -194,7 +196,7 @@
     	absolute_hour = newHour;
     	hour = newHour % 24;
     	if (hour < 10) hour = "0" + hour;
-    	document.getElementById("time").innerHTML = "时间:10月"
+    	document.getElementById("time").innerHTML = "10月"
     	    + Math.floor(newHour / 24 + 1) + "日" + hour + "时";
     	showHeatMap();
         getSummary();
@@ -211,7 +213,7 @@
               position: google.maps.ControlPosition.BOTTOM_CENTER
           },
         });
-
+        
         showHeatMap();
         clearSummary();
 
@@ -253,7 +255,7 @@
         }
 
     function clearSummary() {
-    	document.getElementById('summary').style.visibility = 'hidden';
+        document.getElementById('summary').style.visibility = 'hidden';
         document.getElementById('piechart_1').style.visibility = 'hidden';
         document.getElementById('piechart_2').style.visibility = 'hidden';
         document.getElementById('piechart_3').style.visibility = 'hidden';
@@ -263,7 +265,7 @@
         if (marker) {
             var latlng = marker.getPosition();
             var url = "GetSummary.jsp?radius=" + radius + "&lat=" + latlng.lat() + "&lng=" + latlng.lng() +
-            "&absolute_hour=" + absolute_hour;
+            "&absolute_hour=" + absolute_hour + "&mcc=" + mcc;
 
             clearSummary();
             document.getElementById("summary").innerHTML = "正在统计中...";
@@ -348,37 +350,36 @@
      </head>
       <body>
        <div id="topmenu" class="ui-front ui-widget- content ">
-         <img class="logo" src="img/cmlogo-white.png" width="150" >
+         <img class="logo" src="img/Vertical-400 copy.png" width="120">
          <div class="title">国际漫游大数据</div>
        </div>
 
        <div id = "hour-slider" >
-                    <span id = "time" style="color:white">时间:10月1日00时</span>
+
+                    <span id = "time" style="color:white">10月1日00时</span><br/>
                     <input  type="range" min="0" max="167" value="0" step="1" onchange="updateHour(this.value)" />
                 </div>
                 <div id = "radius-slider" >
-                     <span id = "radius" style="color:white">覆盖半径:01公里</span>
-                     <input  type="range" min="1" max="50" value="0" step="1" value = "1" onchange="updateRadius(this.value)" />
+                     <span id = "radius" style="color:white">覆盖半径:5公里</span><br/>
+                     <input  type="range" min="1" max="50" value="5" step="1"  onchange="updateRadius(this.value)" />
                 </div>
        <div id="piechart_1" ></div>
        <div id="piechart_2" ></div>
-       <div id="piechart_3" ></div>
-
-
+       <div id="piechart_3"></div>
          <div id = "summary"> </div>
        	<div id="map-chooser">
-       		<button onclick="updateLocation(454)">香港</button><br>
-       		<button onclick="updateLocation(455)">澳门</button><br>
-       		<button onclick="updateLocation(466)">台湾</button><br>
-       		<button onclick="updateLocation(460)">中国大陆</button><br>
-       		<button onclick="updateLocation(502)">马来西亚</button><br>
-             <button onclick="updateLocation(525)">新加坡</button><br>
+       		<button onclick="updateLocation(454)" class="button button-glow button-border button-rounded button-primary">香&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;港</button><br>
+       		<button onclick="updateLocation(455)" class="button button-glow button-border button-rounded button-primary">澳&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;门</button><br>
+       		<button onclick="updateLocation(466)" class="button button-glow button-border button-rounded button-primary">台&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;湾</button><br>
+       		<!-- button onclick="updateLocation(460)" class="button button-glow button-border button-rounded button-primary"><b>中国大陆</b></button><br-->
+       		<button onclick="updateLocation(502)" class="button button-glow button-border button-rounded button-primary">马来西亚</button><br>
+             <button onclick="updateLocation(525)" class="button button-glow button-border button-rounded button-primary">新&nbsp;&nbsp;加&nbsp;&nbsp;坡</button><br>
          </div>
 
 
           <div id="map"></div>
           <div id="bottombox" class="ui-front ui-widget-content">
-             中国移动国际公司大数据团队出品<BR>中移研究院美研所专家支持
+             中国移动国际公司大数据团队出品<BR>中国移动研究院美国研究所专家支持
           </div>
     </body>
 </html>
