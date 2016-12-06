@@ -45,9 +45,9 @@
 
         #piechart_1 {
                 position: absolute;
-                top: 18%;
-                right : 5%;
-                width: 25%;
+                top: 17%;
+                right : 3%;
+                width: 30%;
 
                 height: 25%;
                 z-index: 6;
@@ -58,15 +58,16 @@
                 font-family: 'Roboto','sans-serif';
                 font-size: xx-small;
                 line-height: 30px;
-                padding-left: 10px;
+                padding-left: 5px;
+                padding-right: 0px;
                 background-color: rgba(255,255,255,0.5);
               }
 
          #piechart_2 {
                  position: absolute;
-                 top: 45%;
-                 right : 5%;
-                 width: 25%;
+                 top: 44%;
+                 right : 3%;
+                 width: 30%;
 
                  height: 25%;
                  z-index: 6;
@@ -76,17 +77,18 @@
                  font-family: 'Roboto','sans-serif';
                  font-size: xx-small;
                  line-height: 30px;
-                 padding-left: 10px;
+                 padding-left: 5px;
+                 padding-right: 0px;
                   background-color: rgba(255,255,255,0.5);
 
           }
 
          #piechart_3 {
                  position: absolute;
-                 width: 25%;
+                 width: 30%;
                  height: 25%;
-                 top: 72%;
-                 right : 5%;
+                 top: 71%;
+                 right : 3%;
                  z-index: 6;
                  padding: 5px;
                  border: 1px solid #999;
@@ -94,9 +96,9 @@
                  font-family: 'Roboto','sans-serif';
                  font-size: xx-small;
                  line-height: 30px;
-                 padding-left: 10px;
+                 padding-left: 5px;
+                 padding-right: 0px;
                   background-color: rgba(255,255,255,0.5);
-
          }
     #summary {
           position: absolute;
@@ -363,7 +365,7 @@
                 </div>
        <div id="piechart_1" ></div>
        <div id="piechart_2" ></div>
-       <div id="piechart_3" ></div>
+       <div id="piechart_3"></div>
 
 
          <div id = "summary"> </div>
