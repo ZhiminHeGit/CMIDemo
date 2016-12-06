@@ -10,17 +10,21 @@
 <%@page import="java.util.List"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="com.google.gson.Gson"%>
-<%@page contentType="html/text" pageEncoding="UTF-8"%>
+
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
         <%
             try {
               String line;
 
                String dataDir, jarLocation, java;
                String cmti_usa_dir = "C:\\Software\\processed\\";
+               // String cmti_usa_dir = "/Volumes/DataDisk/processed/";
                if (new File(cmti_usa_dir).exists()) {
-                    java = " C:\\Java\\jdk1.8.0_111\\bin\\java";
+                    java = " C:\\Java\\jdk1.8.0_111\\bin\\java -Dfile.encoding=UTF-8";
+                   //java = " /usr/bin/java -Dfile.encoding=UTF-8 ";
                     dataDir = cmti_usa_dir;
                     jarLocation = " C:\\Software\\CMIDemo\\src\\main\\webapp\\WEB-INF\\lib\\XdrHttp-1.0-SNAPSHOT.jar ";
+               //jarLocation = " /Users/zhiminhe/IdeaProjects/XdrHttp/target/XdrHttp-1.0-SNAPSHOT.jar ";
                } else { // cmi, please modify the parameters below
                     java = " put in cmi java location";
                     dataDir = "put in cmi dir";
@@ -39,6 +43,7 @@
                     out.println(line);
                 }
               }
+               bri.close();
             }
             catch (Exception err) {
               err.printStackTrace();
