@@ -4,6 +4,7 @@
   <head>
     <meta charset="utf-8">
     <title>国际漫游大数据</title>
+    <link rel="stylesheet" href="./img/bottons.css" type="text/css">  
     <style>
       html, body {
       font-family: "Classic Grotesque W01","Hiragino Sans GB","STHeiti","Microsoft YaHei","WenQuanYi Micro Hei",Arial,SimSun,sans-serif;
@@ -15,11 +16,11 @@
 
       #topmenu{
          position: absolute;
-         min-width:100%;
+        width:100%;
         left: 0px;
         top: 0px;
         z-index: 5;
-        padding: 10px;
+        padding: 0px;
         background-color:rgba(10,102,200,0.6);
       }
 
@@ -44,11 +45,11 @@
 
         #piechart_1 {
                 position: absolute;
-                top: 25%;
+                top: 18%;
                 right : 5%;
                 width: 25%;
 
-                height: 23%;
+                height: 25%;
                 z-index: 6;
                 background-color: #fff;
                 padding: 5px;
@@ -63,11 +64,11 @@
 
          #piechart_2 {
                  position: absolute;
-                 top: 50%;
+                 top: 45%;
                  right : 5%;
                  width: 25%;
 
-                 height: 23%;
+                 height: 25%;
                  z-index: 6;
                  padding: 5px;
                  border: 1px solid #999;
@@ -83,8 +84,8 @@
          #piechart_3 {
                  position: absolute;
                  width: 25%;
-                 height: 23%;
-                 top: 75%;
+                 height: 25%;
+                 top: 72%;
                  right : 5%;
                  z-index: 6;
                  padding: 5px;
@@ -127,14 +128,14 @@
 
        #hour-slider {
         position: absolute;
-        top:  20px;
+        top:  10px;
         right: 5%;
         z-index: 5;
        }
 
        #radius-slider {
            position: absolute;
-           top:  20px;
+           top:  10px;
            right: 20%;
            z-index: 5;
         }
@@ -156,7 +157,7 @@
    <script type="text/javascript">
 
 
-      var map, heatmap, marker, circle, mcc = 454, old_mcc , absolute_hour = 0, radius =1;
+      var map, heatmap, marker, circle, mcc = 454, old_mcc , absolute_hour = 0, radius =5;
       var chartReady = 0;
       google.charts.load("current", {packages:["corechart"]});
         google.charts.setOnLoadCallback(setChartReady);
@@ -184,7 +185,7 @@
         }
 
     function updateRadius(newRadius) {
-        if (newRadius <10) newRadius = "0" + newRadius;
+        if (newRadius <10) newRadius = newRadius;
         document.getElementById("radius").innerHTML = "覆盖半径:" + newRadius + "公里  ";
         radius = newRadius;
         if (circle) {
@@ -197,7 +198,7 @@
     	absolute_hour = newHour;
     	hour = newHour % 24;
     	if (hour < 10) hour = "0" + hour;
-    	document.getElementById("time").innerHTML = "时间:10月"
+    	document.getElementById("time").innerHTML = "10月"
     	    + Math.floor(newHour / 24 + 1) + "日" + hour + "时";
     	showHeatMap();
         getSummary();
@@ -207,9 +208,14 @@
         map = new google.maps.Map(document.getElementById('map'), {
           zoom: 13,
           center: {lat: 22.272157, lng: 114.181587},
-          mapTypeId: google.maps.MapTypeId.ROADMAP
+          mapTypeId: google.maps.MapTypeId.ROADMAP, 
+          mapTypeControl: true,
+          mapTypeControlOptions: {
+              style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
+              position: google.maps.ControlPosition.BOTTOM_CENTER
+          },
         });
-
+        
         showHeatMap();
         clearSummary();
 
@@ -274,8 +280,7 @@
     }
 
     function showSummary(data) {
-        document.getElementById("summary").innerHTML = data.split("=")[0];
-        document.getElementById("summary").style.visibility = 'visible';
+    	document.getElementById('summary').style.visibility = 'hidden';
         drawChart("piechart_1", "来源省市/地区Home Province/Regions", data.split("=")[1]);
         drawChart("piechart_2", "手机型号Device Model", data.split("=")[2]);
         drawChart("piechart_3", "用户行为User Behavior", data.split("=")[3]);
@@ -333,7 +338,7 @@
         console.log("pointsArray size: " + pointsArray.length);
                 heatmap = new google.maps.visualization.HeatmapLayer({
                   data: pointsArray,
-                  map: map
+                  map: map,
                 });
     }
 
@@ -344,17 +349,17 @@
      </head>
       <body>
        <div id="topmenu" class="ui-front ui-widget- content ">
-         <img class="logo" src="img/cmlogo-white.png" width="150" >
+         <img class="logo" src="img/Vertical-400 copy.png" width="120">
          <div class="title">国际漫游大数据</div>
        </div>
 
        <div id = "hour-slider" >
-                    <span id = "time" style="color:white">时间:10月1日00时</span><br/>
+                    <span id = "time" style="color:white">10月1日00时</span><br/>
                     <input  type="range" min="0" max="167" value="0" step="1" onchange="updateHour(this.value)" />
                 </div>
                 <div id = "radius-slider" >
-                     <span id = "radius" style="color:white">覆盖半径:01公里</span><br/>
-                     <input  type="range" min="1" max="50" value="0" step="1" value = "1" onchange="updateRadius(this.value)" />
+                     <span id = "radius" style="color:white">覆盖半径:5公里</span><br/>
+                     <input  type="range" min="1" max="50" value="5" step="1"  onchange="updateRadius(this.value)" />
                 </div>
        <div id="piechart_1" ></div>
        <div id="piechart_2" ></div>
@@ -363,12 +368,12 @@
 
          <div id = "summary"> </div>
        	<div id="map-chooser">
-       		<button onclick="updateLocation(454)">&nbsp香&nbsp&nbsp&nbsp&nbsp港&nbsp</button><br>
-       		<button onclick="updateLocation(455)">&nbsp澳&nbsp&nbsp&nbsp&nbsp门&nbsp</button><br>
-       		<button onclick="updateLocation(466)">&nbsp台&nbsp&nbsp&nbsp&nbsp湾&nbsp</button><br>
-       		<button onclick="updateLocation(460)"><b>中国大陆</b></button><br>
-       		<button onclick="updateLocation(502)">马来西亚</button><br>
-             <button onclick="updateLocation(525)">&nbsp新&nbsp加&nbsp坡&nbsp</button><br>
+       		<button onclick="updateLocation(454)" class="button button-glow button-border button-rounded button-primary">香&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;港</button><br>
+       		<button onclick="updateLocation(455)" class="button button-glow button-border button-rounded button-primary">澳&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;门</button><br>
+       		<button onclick="updateLocation(466)" class="button button-glow button-border button-rounded button-primary">台&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;湾</button><br>
+       		<!-- button onclick="updateLocation(460)" class="button button-glow button-border button-rounded button-primary"><b>中国大陆</b></button><br-->
+       		<button onclick="updateLocation(502)" class="button button-glow button-border button-rounded button-primary">马来西亚</button><br>
+             <button onclick="updateLocation(525)" class="button button-glow button-border button-rounded button-primary">新&nbsp;&nbsp;加&nbsp;&nbsp;坡</button><br>
          </div>
 
 
