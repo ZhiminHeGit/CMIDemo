@@ -46,8 +46,8 @@
         #piechart_1 {
                 position: absolute;
                 top: 17%;
-                right : 3%;
-                width: 30%;
+                right : 4%;
+                width: 22%;
 
                 height: 25%;
                 z-index: 6;
@@ -66,8 +66,8 @@
          #piechart_2 {
                  position: absolute;
                  top: 44%;
-                 right : 3%;
-                 width: 30%;
+                 right : 4%;
+                 width: 22%;
 
                  height: 25%;
                  z-index: 6;
@@ -85,10 +85,10 @@
 
          #piechart_3 {
                  position: absolute;
-                 width: 30%;
+                 width: 22%;
                  height: 25%;
                  top: 71%;
-                 right : 3%;
+                 right : 4%;
                  z-index: 6;
                  padding: 5px;
                  border: 1px solid #999;
@@ -128,18 +128,20 @@
         background-color: rgba(255,255,255,0.5);
        }
 
-       #hour-slider {
+        #hour-div {
         position: absolute;
-        top:  10px;
-        right: 5%;
-        z-index: 5;
+       top:  10px;
+       right: 5%;
+       width: 168px;
+        z-index: 6;
        }
 
-       #radius-slider {
-           position: absolute;
-           top:  10px;
-           right: 20%;
-           z-index: 5;
+       #radius-div {
+          position: absolute;
+          top:  10px;
+          right: 20%;
+          width: 168px;
+          z-index: 6;
         }
         #bottombox{
         background-color:rgba(255,255,255,0.8);
@@ -153,16 +155,53 @@
         }
     </style>
 
-   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-   <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.0/jquery.min.js"></script>
+ <script src="https://www.gstatic.com/charts/loader.js"></script>
+   <link href = "https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css"
+             rel = "stylesheet">
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+   <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 
-   <script type="text/javascript">
+   <script>
 
-
-      var map, heatmap, marker, circle, mcc = 454, old_mcc , absolute_hour = 0, radius =5;
+        var map, heatmap, marker, circle, mcc = 454, old_mcc , absolute_hour = 0, radius =1;
       var chartReady = 0;
       google.charts.load("current", {packages:["corechart"]});
-        google.charts.setOnLoadCallback(setChartReady);
+      google.charts.setOnLoadCallback(setChartReady);
+        $(function() {
+                   $( "#radius-slider" ).slider({
+                   min: 1,
+                   max: 30,
+                   value: radius,
+                   create: function() {
+                        radiusText(radius);
+
+                   },
+                   slide: function( event, ui ) {
+                        radiusText(ui.value);
+                   },
+                   change: function (event, ui) {
+                        radiusText(ui.value);
+                        updateRadius(ui.value);
+                   }
+                   });
+
+            $( "#hour-slider" ).slider({
+                      max: 168,
+                      value: absolute_hour,
+                      create: function() {
+                           hourText(absolute_hour);
+
+                      },
+                      slide: function( event, ui ) {
+                            hourText(ui.value);
+                      },
+                      change: function (event, ui) {
+                           hourText(ui.value);
+                           updateHour(ui.value);
+                      }
+                      });
+                });
+
 
 
         function setChartReady() {
@@ -175,9 +214,10 @@
             var data = google.visualization.arrayToDataTable(JSON.parse(dataString));
 
             var options = {
-                title: title,
-                backgroundColor: 'transparent',
-                is3D: true,
+                'title': title,
+                'backgroundColor': 'transparent',
+                'is3D': true,
+                'chartArea': {'width': '100%', 'height': '80%','left':10}
             };
 
             var chart = new google.visualization.PieChart(document.getElementById(chartid));
@@ -186,32 +226,38 @@
           }
         }
 
+     function radiusText(newRadius) {
+        $("#radius-text").text("覆盖半径:" + newRadius + "公里")
+
+    }
     function updateRadius(newRadius) {
-        if (newRadius <10) newRadius = newRadius;
-        document.getElementById("radius").innerHTML = "覆盖半径:" + newRadius + "公里  ";
         radius = newRadius;
         if (circle) {
             createCircle();
         }
     }
-
+    function hourText(newHour) {
+        	$("#hour-text").text("10月"
+            	    + Math.floor(newHour / 24 + 1) + "日" + (newHour % 24) + "时");
+    }
     function updateHour(newHour)
     {
     	absolute_hour = newHour;
     	hour = newHour % 24;
     	if (hour < 10) hour = "0" + hour;
-    	document.getElementById("time").innerHTML = "10月"
-    	    + Math.floor(newHour / 24 + 1) + "日" + hour + "时";
+        hourText(newHour);
     	showHeatMap();
         getSummary();
 
     }
       function initMap() {
+
         map = new google.maps.Map(document.getElementById('map'), {
           zoom: 13,
           center: {lat: 22.272157, lng: 114.181587},
           mapTypeId: google.maps.MapTypeId.ROADMAP, 
           mapTypeControl: true,
+          clickableIcons: false,
           mapTypeControlOptions: {
               style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
               position: google.maps.ControlPosition.BOTTOM_CENTER
@@ -269,9 +315,12 @@
         if (marker) {
             var latlng = marker.getPosition();
             var url = "GetSummary.jsp?radius=" + radius + "&lat=" + latlng.lat() + "&lng=" + latlng.lng() +
-            "&absolute_hour=" + absolute_hour;
+            "&absolute_hour=" + absolute_hour + "&mcc=" + mcc;
 
             clearSummary();
+            document.getElementById("summary").innerHTML = "正在统计中...";
+            document.getElementById("summary").style.visibility = 'visible';
+        	
             $.ajax({ url: url,
                  type: 'GET',
                  success: showSummary,
@@ -355,19 +404,19 @@
          <div class="title">国际漫游大数据</div>
        </div>
 
-       <div id = "hour-slider" >
-                    <span id = "time" style="color:white">10月1日00时</span><br/>
-                    <input  type="range" min="0" max="167" value="0" step="1" onchange="updateHour(this.value)" />
-                </div>
-                <div id = "radius-slider" >
-                     <span id = "radius" style="color:white">覆盖半径:5公里</span><br/>
-                     <input  type="range" min="1" max="50" value="5" step="1"  onchange="updateRadius(this.value)" />
-                </div>
+       <div id = "hour-div" >
+        <span id = "hour-text" style="color:white"></span><br/>
+         <div id = "hour-slider"> </div>
+        </div>
+
+        <div id = "radius-div">
+        <span id = "radius-text" style="color:white"></span><br/>
+        <div id = "radius-slider"> </div>
+        </div>
+        
        <div id="piechart_1" ></div>
        <div id="piechart_2" ></div>
        <div id="piechart_3"></div>
-
-
          <div id = "summary"> </div>
        	<div id="map-chooser">
        		<button onclick="updateLocation(454)" class="button button-glow button-border button-rounded button-primary">香&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;港</button><br>
