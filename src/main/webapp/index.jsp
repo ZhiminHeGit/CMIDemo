@@ -161,7 +161,7 @@
    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
    <script>
 
-      var map, heatmap, marker, circle, mcc = 454, old_mcc , absolute_hour = 0, radius =5;
+      var map, heatmap, marker, circle, mcc = 454, old_mcc , absolute_hour = 0, radius =1;
       var chartReady = 0;
       google.charts.load("current", {packages:["corechart"]});
       google.charts.setOnLoadCallback(setChartReady);
