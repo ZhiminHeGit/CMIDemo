@@ -129,7 +129,7 @@
 
        #hour-div {
         position: absolute;
-       top:  10px;
+       top:  5px;
        right: 5%;
        width: 168px;
         z-index: 6;
@@ -137,8 +137,8 @@
 
        #radius-div {
           position: absolute;
-          top:  10px;
-          right: 20%;
+          top:  5px;
+          left: 50%;
           width: 168px;
           z-index: 6;
         }
@@ -159,6 +159,7 @@
              rel = "stylesheet">
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"></script>
    <script>
 
       var map, heatmap, marker, circle, mcc = 454, old_mcc , absolute_hour = 0, radius =1;
@@ -406,11 +407,13 @@
 
        <div id = "hour-div" >
         <span id = "hour-text" style="color:white"></span><br/>
+        <br/>
          <div id = "hour-slider"> </div>
         </div>
 
         <div id = "radius-div">
         <span id = "radius-text" style="color:white"></span><br/>
+        <br/>
         <div id = "radius-slider"> </div>
         </div>
 
