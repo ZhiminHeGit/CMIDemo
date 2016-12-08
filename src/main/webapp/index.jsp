@@ -127,18 +127,20 @@
         background-color: rgba(255,255,255,0.5);
        }
 
-       #hour-slider {
+       #hour-div {
         position: absolute;
        top:  10px;
        right: 5%;
-        z-index: 5;
+       width: 168px;
+        z-index: 6;
        }
 
-       #radius-slider {
-           position: absolute;
+       #radius-div {
+          position: absolute;
           top:  10px;
-           right: 20%;
-          z-index: 5;
+          right: 20%;
+          width: 168px;
+          z-index: 6;
         }
         #bottombox{
         background-color:rgba(255,255,255,0.8);
@@ -152,15 +154,51 @@
         }
     </style>
 
-   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-   <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.0/jquery.min.js"></script>
-
-   <script type="text/javascript">
+   <script src="https://www.gstatic.com/charts/loader.js"></script>
+   <link href = "https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css"
+             rel = "stylesheet">
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+   <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+   <script>
 
       var map, heatmap, marker, circle, mcc = 454, old_mcc , absolute_hour = 0, radius =5;
       var chartReady = 0;
       google.charts.load("current", {packages:["corechart"]});
-        google.charts.setOnLoadCallback(setChartReady);
+      google.charts.setOnLoadCallback(setChartReady);
+        $(function() {
+                   $( "#radius-slider" ).slider({
+                   min: 1,
+                   max: 100,
+                   value: radius,
+                   create: function() {
+                        radiusText(radius);
+
+                   },
+                   slide: function( event, ui ) {
+                        radiusText(ui.value);
+                   },
+                   change: function (event, ui) {
+                        radiusText(ui.value);
+                        updateRadius(ui.value);
+                   }
+                   });
+
+            $( "#hour-slider" ).slider({
+                      max: 168,
+                      value: absolute_hour,
+                      create: function() {
+                           hourText(absolute_hour);
+
+                      },
+                      slide: function( event, ui ) {
+                            hourText(ui.value);
+                      },
+                      change: function (event, ui) {
+                           hourText(ui.value);
+                           updateHour(ui.value);
+                      }
+                      });
+                });
 
 
         function setChartReady() {
@@ -176,6 +214,7 @@
                 title: title,
                 backgroundColor: 'transparent',
                 is3D: true,
+                chartArea: {  width: "100%", height: "100%" }
             };
 
             var chart = new google.visualization.PieChart(document.getElementById(chartid));
@@ -184,12 +223,20 @@
           }
         }
 
+    function radiusText(newRadius) {
+        $("#radius-text").text("覆盖半径:" + newRadius + "公里")
+
+    }
     function updateRadius(newRadius) {
-        document.getElementById("radius").innerHTML = "覆盖半径:" + newRadius + "公里  ";
         radius = newRadius;
         if (circle) {
             createCircle();
         }
+    }
+
+    function hourText(newHour) {
+        	$("#hour-text").text("10月"
+            	    + Math.floor(newHour / 24 + 1) + "日" + (newHour % 24) + "时");
     }
 
     function updateHour(newHour)
@@ -197,8 +244,7 @@
     	absolute_hour = newHour;
     	hour = newHour % 24;
     	if (hour < 10) hour = "0" + hour;
-    	document.getElementById("time").innerHTML = "10月"
-    	    + Math.floor(newHour / 24 + 1) + "日" + hour + "时";
+        hourText(newHour);
     	showHeatMap();
         getSummary();
 
@@ -358,15 +404,16 @@
          <div class="title">国际漫游大数据</div>
        </div>
 
-       <div id = "hour-slider" >
+       <div id = "hour-div" >
+        <span id = "hour-text" style="color:white"></span><br/>
+         <div id = "hour-slider"> </div>
+        </div>
 
-                    <span id = "time" style="color:white">10月1日00时</span><br/>
-                    <input  type="range" min="0" max="167" value="0" step="1" onchange="updateHour(this.value)" />
-                </div>
-                <div id = "radius-slider" >
-                     <span id = "radius" style="color:white">覆盖半径:5公里</span><br/>
-                     <input  type="range" min="1" max="50" value="5" step="1"  onchange="updateRadius(this.value)" />
-                </div>
+        <div id = "radius-div">
+        <span id = "radius-text" style="color:white"></span><br/>
+        <div id = "radius-slider"> </div>
+        </div>
+
        <div id="piechart_1" ></div>
        <div id="piechart_2" ></div>
        <div id="piechart_3"></div>
