@@ -185,7 +185,7 @@
                    });
 
             $( "#hour-slider" ).slider({
-                      max: 168,
+                      max: 167,
                       value: absolute_hour,
                       create: function() {
                            hourText(absolute_hour);
