@@ -128,18 +128,19 @@
         background-color: rgba(255,255,255,0.5);
        }
 
-        #hour-div {
+       #hour-div {
         position: absolute;
-       top:  10px;
+       top:  5px;
        right: 5%;
        width: 168px;
         z-index: 6;
        }
 
+
        #radius-div {
           position: absolute;
-          top:  10px;
-          right: 20%;
+          top:  5px;
+          left: 50%;
           width: 168px;
           z-index: 6;
         }
@@ -158,12 +159,12 @@
  <script src="https://www.gstatic.com/charts/loader.js"></script>
    <link href = "https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css"
              rel = "stylesheet">
-      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"></script>
    <script>
 
-        var map, heatmap, marker, circle, mcc = 454, old_mcc , absolute_hour = 0, radius =1;
+        var map, heatmap, marker, circle, mcc = 454, old_mcc , absolute_hour = 12, radius =5;
       var chartReady = 0;
       google.charts.load("current", {packages:["corechart"]});
       google.charts.setOnLoadCallback(setChartReady);
@@ -397,6 +398,28 @@
     <script async defer
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB_GOOW6aZsUtDxaJ3yyUPis8M1QG6WqXk&libraries=visualization&callback=initMap">
     </script>
+    <style>
+        #radius-slider{
+        margin-top: 5px;
+        }
+         #hour-slider{
+        margin-top: 5px;
+        }
+        .ui-slider-horizontal {
+          height: 0.6em;
+        }
+        .ui-widget {
+          font-family: Trebuchet MS,Tahoma,Verdana,Arial,sans-serif;
+          font-size: 0.8em;
+        }
+        .ui-slider-handle{
+        color: #FF5809;
+        }
+        .ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default, .ui-button, html .ui-button.ui-state-disabled:hover, html .ui-button.ui-state-disabled:active{
+          background: #099cff none repeat scroll 0 0;
+        }
+        
+    </style>
      </head>
       <body>
        <div id="topmenu" class="ui-front ui-widget- content ">
@@ -406,11 +429,13 @@
 
        <div id = "hour-div" >
         <span id = "hour-text" style="color:white"></span><br/>
+
          <div id = "hour-slider"> </div>
         </div>
 
         <div id = "radius-div">
         <span id = "radius-text" style="color:white"></span><br/>
+
         <div id = "radius-slider"> </div>
         </div>
         
