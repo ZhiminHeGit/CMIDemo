@@ -152,6 +152,16 @@
         padding:4px;
         font-size:12px;
         padding:2px 10px;
+        width:210px;
+        }
+                #unionD{
+        background-color:rgba(255,255,255,0.1);
+        position: absolute;
+        bottom:5px;
+        left:160px;
+        padding:4px;
+        font-size:12px;
+        padding:2px 10px;
 
         }
     </style>
@@ -457,7 +467,7 @@
 
           <div id="map"></div>
           <div id="bottombox" class="ui-front ui-widget-content">
-             中国移动国际公司大数据团队<BR>中国移动研究院美国研究所联合研发
+             中国移动国际公司大数据团队<BR>中国移动研究院美国研究所<div id="unionD">联合研发</div>
           </div>
     </body>
 </html>
