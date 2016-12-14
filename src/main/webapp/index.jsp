@@ -153,7 +153,7 @@
         font-size:12px;
         padding:2px 10px;
         width:210px;
-        }
+        } 
                 #unionD{
         background-color:rgba(255,255,255,0.1);
         position: absolute;
