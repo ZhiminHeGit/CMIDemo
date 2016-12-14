@@ -218,7 +218,9 @@
                 'title': title,
                 'backgroundColor': 'transparent',
                 'is3D': true,
-                'chartArea': {'width': '100%', 'height': '80%','left':10}
+                'chartArea': {'width': '100%', 'height': '80%','left':10},
+                'pieSliceText':'percentage',
+                'tooltip':{'text':'percentage'}
             };
 
             var chart = new google.visualization.PieChart(document.getElementById(chartid));
