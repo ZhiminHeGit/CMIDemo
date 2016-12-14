@@ -35,6 +35,8 @@
     <bean id="roamingUserDaoRef" class="com.chinamobile.cmti.dao.RoamingUserDAOImpl"/>
 
     <mvc:resources mapping="/img/**" location="/img/" />
+    <mvc:resources mapping="/js/**" location="/js/" />
+    <mvc:resources mapping="/images/**" location="/images/" />
     <mvc:resources mapping="/amcharts/**" location="/amcharts/"/>
 
 </beans>

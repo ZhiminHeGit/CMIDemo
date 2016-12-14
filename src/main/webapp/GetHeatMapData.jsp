@@ -18,11 +18,11 @@
     int day = absolute_hour / 24 + 1;
     int hour = absolute_hour % 24;
     String dataDir;
-    String cmti_usa_dir = "C:\\Software\\processed\\";
+    String cmti_usa_dir = "/Volumes/DataDisk/processed/";
     if (new File(cmti_usa_dir).exists()) {
         dataDir = cmti_usa_dir;
     } else { // cmi, please modify the parameters below
-        dataDir = "put in cmi dir";
+        dataDir = "C:\\Software\\processed\\";
     }
     String heatmap = String.format(dataDir + "2016100%d%02d.%s.heatmap", day , hour,  mcc);
     BufferedReader reader = new BufferedReader(new FileReader(heatmap));
