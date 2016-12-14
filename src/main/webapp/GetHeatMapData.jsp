@@ -34,6 +34,7 @@
             sb.append(",");
         sb.append(line);
     }
+    reader.close();
     out.println(sb.toString());
     reader.close();
 %>

@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8">
     <title>国际漫游大数据</title>
-    <link rel="stylesheet" href="./img/bottons.css" type="text/css">  
+    <link rel="stylesheet" href="./img/bottons.css" type="text/css">
     <style>
       html, body {
       font-family: "Classic Grotesque W01","Hiragino Sans GB","STHeiti","Microsoft YaHei","WenQuanYi Micro Hei",Arial,SimSun,sans-serif;
@@ -13,6 +13,7 @@
         margin: 0;
         padding: 0;
       }
+
 
       #topmenu{
          position: absolute;
@@ -48,7 +49,6 @@
                 top: 17%;
                 right : 4%;
                 width: 22%;
-
                 height: 25%;
                 z-index: 6;
                 background-color: #fff;
@@ -68,7 +68,6 @@
                  top: 44%;
                  right : 4%;
                  width: 22%;
-
                  height: 25%;
                  z-index: 6;
                  padding: 5px;
@@ -79,7 +78,7 @@
                  line-height: 30px;
                  padding-left: 5px;
                  padding-right: 0px;
-                  background-color: rgba(255,255,255,0.5);
+                 background-color: rgba(255,255,255,0.5);
 
           }
 
@@ -98,7 +97,7 @@
                  line-height: 30px;
                  padding-left: 5px;
                  padding-right: 0px;
-                  background-color: rgba(255,255,255,0.5);
+                 background-color: rgba(255,255,255,0.5);
          }
     #summary {
           position: absolute;
@@ -214,7 +213,6 @@
                 });
 
 
-
         function setChartReady() {
             chartReady = 1;
         }
@@ -249,6 +247,11 @@
             createCircle();
         }
     }
+
+    function hourText(newHour) {
+        	$("#hour-text").text("10月"
+            	    + Math.floor(newHour / 24 + 1) + "日" + (newHour % 24) + "时");
+    }
     function hourText(newHour) {
         	$("#hour-text").text("10月"
             	    + Math.floor(newHour / 24 + 1) + "日" + (newHour % 24) + "时");
@@ -276,6 +279,7 @@
               position: google.maps.ControlPosition.BOTTOM_CENTER
           },
         });
+
         
         showHeatMap();
         clearSummary();
@@ -441,7 +445,6 @@
 
        <div id = "hour-div" >
         <span id = "hour-text" style="color:white"></span><br/>
-
          <div id = "hour-slider"> </div>
         </div>
 
@@ -450,7 +453,6 @@
 
         <div id = "radius-slider"> </div>
         </div>
-        
        <div id="piechart_1" ></div>
        <div id="piechart_2" ></div>
        <div id="piechart_3"></div>
