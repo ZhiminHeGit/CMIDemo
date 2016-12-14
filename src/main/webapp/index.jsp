@@ -35,7 +35,7 @@
         font-weight:100;
         color:#ffffff;
         vertical-align: top;
-        margin:5px 0px 0px 20px;
+        margin:7px 0px 0px 20px;
       }
 
       #map {
@@ -130,8 +130,8 @@
 
        #hour-div {
         position: absolute;
-       top:  5px;
-       right: 5%;
+       top:  9px;
+       right: 11%;
        width: 168px;
         z-index: 6;
        }
@@ -139,8 +139,8 @@
 
        #radius-div {
           position: absolute;
-          top:  5px;
-          left: 50%;
+          top:  9px;
+          right: 30%;
           width: 168px;
           z-index: 6;
         }
@@ -423,7 +423,7 @@
      </head>
       <body>
        <div id="topmenu" class="ui-front ui-widget- content ">
-         <img class="logo" src="img/Vertical-400 copy.png" width="120">
+         <img class="logo" src="img/cmlogo-white.png" width="150">
          <div class="title">国际漫游大数据</div>
        </div>
 
@@ -455,7 +455,7 @@
 
           <div id="map"></div>
           <div id="bottombox" class="ui-front ui-widget-content">
-             中国移动国际公司大数据团队出品<BR>中国移动研究院美国研究所专家支持
+             中国移动国际公司大数据团队<BR>中国移动研究院美国研究所联合研发
           </div>
     </body>
 </html>
