@@ -127,6 +127,23 @@
         background-color: rgba(255,255,255,0.5);
        }
 
+
+        #radius-div {
+                  position: absolute;
+                  top:  9px;
+                  right: 50%;
+                  width: 168px;
+                  z-index: 6;
+       }
+
+       #date-div {
+          position: absolute;
+                         top:  9px;
+                         right: 30%;
+                         width: 168px;
+                         z-index: 6;
+
+       }
        #hour-div {
         position: absolute;
        top:  9px;
@@ -136,13 +153,6 @@
        }
 
 
-       #radius-div {
-          position: absolute;
-          top:  9px;
-          right: 30%;
-          width: 168px;
-          z-index: 6;
-        }
         #bottombox{
         background-color:rgba(255,255,255,0.8);
         position: absolute;
@@ -152,8 +162,9 @@
         font-size:12px;
         padding:2px 10px;
         width:210px;
-        } 
-                #unionD{
+        }
+
+        #unionD{
         background-color:rgba(255,255,255,0.1);
         position: absolute;
         bottom:5px;
@@ -173,33 +184,33 @@
    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"></script>
    <script>
 
-        var map, heatmap, marker, circle, mcc = 454, old_mcc , absolute_hour = 12, radius =5;
+        var map, heatmap, marker, circle, mcc = 454, old_mcc , date = "20161001" , hour = 0, radius =5;
       var chartReady = 0;
       google.charts.load("current", {packages:["corechart"]});
       google.charts.setOnLoadCallback(setChartReady);
-        $(function() {
-                   $( "#radius-slider" ).slider({
-                   min: 1,
-                   max: 30,
-                   value: radius,
-                   create: function() {
-                        radiusText(radius);
+          $(function() {
+               $( "#radius-slider" ).slider({
+               min: 1,
+               max: 30,
+               value: radius,
+               create: function() {
+                    radiusText(radius);
 
-                   },
-                   slide: function( event, ui ) {
-                        radiusText(ui.value);
-                   },
-                   change: function (event, ui) {
-                        radiusText(ui.value);
-                        updateRadius(ui.value);
-                   }
-                   });
+               },
+               slide: function( event, ui ) {
+                    radiusText(ui.value);
+               },
+               change: function (event, ui) {
+                    radiusText(ui.value);
+                    updateRadius(ui.value);
+               }
+               });
 
-            $( "#hour-slider" ).slider({
-                      max: 167,
-                      value: absolute_hour,
+               $( "#hour-slider" ).slider({
+                      max: 23,
+                      value: hour,
                       create: function() {
-                           hourText(absolute_hour);
+                           hourText(hour);
 
                       },
                       slide: function( event, ui ) {
@@ -209,8 +220,18 @@
                            hourText(ui.value);
                            updateHour(ui.value);
                       }
-                      });
                 });
+
+                $("#datepicker").datepicker({
+                   onSelect: function(dateText, inst) {
+                    date = $.datepicker.formatDate('yymmdd', $(this).datepicker( 'getDate' ));
+                    showHeatMap();
+                    getSummary();
+                   }
+                });
+
+                $("#datepicker").datepicker("setDate" , "10/01/2016");
+          });
 
 
         function setChartReady() {
@@ -249,25 +270,17 @@
     }
 
     function hourText(newHour) {
-        	$("#hour-text").text("10月"
-            	    + Math.floor(newHour / 24 + 1) + "日" + (newHour % 24) + "时");
+        $("#hour-text").text(newHour + "时");
     }
-    function hourText(newHour) {
-        	$("#hour-text").text("10月"
-            	    + Math.floor(newHour / 24 + 1) + "日" + (newHour % 24) + "时");
-    }
-    function updateHour(newHour)
-    {
-    	absolute_hour = newHour;
-    	hour = newHour % 24;
-    	if (hour < 10) hour = "0" + hour;
+
+    function updateHour(newHour) {
+    	hour = newHour;
         hourText(newHour);
     	showHeatMap();
         getSummary();
-
     }
-      function initMap() {
 
+    function initMap() {
         map = new google.maps.Map(document.getElementById('map'), {
           zoom: 13,
           center: {lat: 22.272157, lng: 114.181587},
@@ -280,7 +293,6 @@
           },
         });
 
-        
         showHeatMap();
         clearSummary();
 
@@ -332,7 +344,7 @@
         if (marker) {
             var latlng = marker.getPosition();
             var url = "GetSummary.jsp?radius=" + radius + "&lat=" + latlng.lat() + "&lng=" + latlng.lng() +
-            "&absolute_hour=" + absolute_hour + "&mcc=" + mcc;
+            "&date=" + date + "&hour=" + hour + "&mcc=" + mcc;
 
             clearSummary();
             document.getElementById("summary").innerHTML = "正在统计中...";
@@ -348,10 +360,15 @@
     }
 
     function showSummary(data) {
-    	document.getElementById('summary').style.visibility = 'hidden';
-        drawChart("piechart_1", "来源省市/地区Home Province/Regions", data.split("=")[1]);
-        drawChart("piechart_2", "手机型号Device Model", data.split("=")[2]);
-        drawChart("piechart_3", "用户行为User Behavior", data.split("=")[3]);
+        console.log(data);
+        if (data.includes("Error")) {
+            window.alert(data);
+        } else {
+    	    document.getElementById('summary').style.visibility = 'hidden';
+            drawChart("piechart_1", "来源省市/地区Home Province/Regions", data.split("=")[1]);
+            drawChart("piechart_2", "手机型号Device Model", data.split("=")[2]);
+            drawChart("piechart_3", "用户行为User Behavior", data.split("=")[3]);
+        }
     }
 
     function updateLocation(newMcc) {
@@ -370,8 +387,7 @@
     }
 
     function showHeatMap() {
-
-        var url = "GetHeatMapData.jsp?mcc=" + mcc + "&absolute_hour=" + absolute_hour;
+        var url = "GetHeatMapData.jsp?mcc=" + mcc + "&date=" + date + "&hour=" + hour;
         if(heatmap) {
             heatmap.setMap(null);
         }
@@ -384,7 +400,9 @@
     }
 
     function loadDataToHeatMap(data) {
-    //window.alert("Successfully retrieved heatmap data from server. Click OK to display heatmap");
+     if (data.includes("Error")) {
+        window.alert(data);
+     } else {
         var temp = new Array();
         temp = data.split(",");
         var tempLen = temp.length;
@@ -403,12 +421,13 @@
             old_mcc = mcc;
             map.fitBounds(bounds);
         }
-        console.log("pointsArray size: " + pointsArray.length);
-                heatmap = new google.maps.visualization.HeatmapLayer({
-                  data: pointsArray,
-                  map: map,
-                });
-    }
+
+        heatmap = new google.maps.visualization.HeatmapLayer({
+          data: pointsArray,
+          map: map,
+        });
+     }
+   }
 
     </script>
     <script async defer
@@ -443,16 +462,21 @@
          <div class="title">国际漫游大数据</div>
        </div>
 
-       <div id = "hour-div" >
-        <span id = "hour-text" style="color:white"></span><br/>
-         <div id = "hour-slider"> </div>
+
+        <div id = "date-div" style="color:white">
+        日期: <br/>
+        <input type="text" id="datepicker">
         </div>
 
         <div id = "radius-div">
         <span id = "radius-text" style="color:white"></span><br/>
-
         <div id = "radius-slider"> </div>
         </div>
+
+        <div id = "hour-div" >
+                <span id = "hour-text" style="color:white"></span><br/>
+                 <div id = "hour-slider"> </div>
+                </div>
        <div id="piechart_1" ></div>
        <div id="piechart_2" ></div>
        <div id="piechart_3"></div>

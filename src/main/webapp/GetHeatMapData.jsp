@@ -13,10 +13,8 @@
 <%@page contentType="html/text" pageEncoding="UTF-8"%>
 <%
     String mcc = request.getParameter("mcc");
-    int absolute_hour =
-        Integer.parseInt(request.getParameter("absolute_hour"));
-    int day = absolute_hour / 24 + 1;
-    int hour = absolute_hour % 24;
+    String date = request.getParameter("date");
+    int hour = Integer.parseInt(request.getParameter("hour"));
     String dataDir;
     String cmti_usa_dir = "/Volumes/DataDisk/processed/";
     if (new File(cmti_usa_dir).exists()) {
@@ -24,17 +22,24 @@
     } else { // cmi, please modify the parameters below
         dataDir = "C:\\Software\\processed\\";
     }
-    String heatmap = String.format(dataDir + "2016100%d%02d.%s.heatmap", day , hour,  mcc);
-    BufferedReader reader = new BufferedReader(new FileReader(heatmap));
-    System.out.println(heatmap);
-    StringBuilder sb = new StringBuilder();
-    String line;
-    while((line = reader.readLine())!= null){
-        if(sb.length() != 0)
-            sb.append(",");
-        sb.append(line);
+    String heatmap = String.format(dataDir + date + "%02d" + "." + mcc + ".heatmap", hour);
+    if (new File(heatmap).exists()) {
+        BufferedReader reader = new BufferedReader(new FileReader(heatmap));
+        System.out.println(heatmap);
+        StringBuilder sb = new StringBuilder();
+        String line;
+        while((line = reader.readLine())!= null){
+            if(sb.length() != 0)
+                sb.append(",");
+            sb.append(line);
+        }
+        reader.close();
+        out.println(sb.toString());
+        reader.close();
+    } else {
+        out.println("Error: Heatmap Data not exist");
     }
-    reader.close();
-    out.println(sb.toString());
-    reader.close();
+
+
+
 %>
